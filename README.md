@@ -1,7 +1,6 @@
 # skills
 
 [![skills.sh installs](https://skills.sh/b/moneytosms/skills)](https://skills.sh/moneytosms/skills)
-[![license](https://img.shields.io/github/license/moneytosms/skills)](LICENSE)
 
 Agent skills for Claude Code and other agents.
 
