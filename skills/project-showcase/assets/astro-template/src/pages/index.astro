@@ -1,0 +1,16 @@
+---
+// STUB. Replace this whole file with the landing page from the creative brief
+// (references/creative-direction.md). Do not fill in a template: design the
+// structure, navigation, type, palette and motion for this project.
+// Parts bin if useful: src/components/*, src/scripts/motion.ts. Optional.
+// Must keep: one visible <h1>, a link to guide/ via withBase, content visible
+// without JS, no horizontal overflow at 375/768/1440, no console errors.
+import Landing from "../layouts/Landing.astro";
+import { cfg, withBase } from "../lib/source";
+---
+
+<Landing title={`${cfg.name}, ${cfg.tagline}`} description={cfg.description}>
+  <h1>{cfg.name}</h1>
+  <p>{cfg.tagline}</p>
+  <p><a href={withBase("guide/")}>Guide</a> <a href={cfg.repoUrl}>Source</a></p>
+</Landing>

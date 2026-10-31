@@ -1,0 +1,10 @@
+---
+// Replace with a 404 in the landing's own voice; keep a link home.
+import Landing from "../layouts/Landing.astro";
+import { cfg, withBase } from "../lib/source";
+---
+
+<Landing title={`Not found, ${cfg.name}`} description="Page not found.">
+  <h1>Not found</h1>
+  <p><a href={withBase("")}>Back to {cfg.name}</a></p>
+</Landing>
