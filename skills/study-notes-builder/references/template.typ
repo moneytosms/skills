@@ -152,10 +152,10 @@
 #let proof = proofblock()
 
 // ===========================================================================
-//  CALLOUTS  (light left-rule asides; use sparingly)
+//  CALLOUTS  (light left-rule asides for intuition, pitfalls, exam traps)
 // ===========================================================================
 // Light aside: coloured bold lead-in + thin left rule. No fill, no icon, no box.
-// Use sparingly; plain prose / bold / indentation is usually enough.
+// Use wherever the topic has an intuition, pitfall or exam trap; bullets inside are fine.
 #let _aside(accent, label, body) = block(
   width: 100%, above: 0.9em, below: 0.9em, inset: (left: 0.9em, y: 0.15em),
   stroke: (left: 1.8pt + accent),

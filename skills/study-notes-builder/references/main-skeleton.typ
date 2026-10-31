@@ -36,7 +36,7 @@
 // ---------------------------------------------------------------------------
 #set page(header: none)
 // Optional, 2-3 sentences max: what the notes cover and how to read them.
-// No legend of box types: if a reader needs a legend, there are too many boxes.
+// No legend of box types: definition, formula, example, pitfall are self-evident.
 
 #v(1em)
 #outline(title: [Contents], indent: auto, depth: 2)
