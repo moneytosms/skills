@@ -63,7 +63,7 @@
     fill: c-ink,
     lang: "en",
   )
-  set par(justify: true, leading: 0.62em, spacing: 0.95em)
+  set par(justify: true, leading: 0.7em, spacing: 1.2em)
 
   // ---- headings ----------------------------------------------------------
   set heading(numbering: "1.1")
@@ -78,14 +78,26 @@
       line(length: 100%, stroke: 1pt + c-accent)
     })
   }
-  show heading.where(level: 2): it => block(above: 1.15em, below: 0.55em, breakable: false, {
-    set text(size: 13pt, weight: "bold", fill: c-accent2)
-    if it.numbering != none [#counter(heading).display() #h(0.4em)]
-    it.body
-  })
-  show heading.where(level: 3): it => block(above: 0.9em, below: 0.45em, breakable: false, {
-    set text(size: 11pt, weight: "bold", fill: c-ink)
+  show heading.where(level: 2): it => block(
+    above: 2em, below: 0.9em, breakable: false, width: 100%,
+    fill: c-bg-soft, inset: (x: 0.7em, y: 0.5em), radius: 3pt,
+    stroke: (left: 3pt + c-accent2),
+    {
+      set text(size: 13.5pt, weight: "bold", fill: c-accent2)
+      if it.numbering != none [#counter(heading).display() #h(0.4em)]
+      it.body
+    })
+  show heading.where(level: 3): it => block(above: 1.5em, below: 0.7em, breakable: false, width: 100%, {
+    set text(size: 11.5pt, weight: "bold", fill: c-ink)
+    box(width: 3pt, height: 0.9em, fill: c-accent, baseline: 0.1em)
+    h(0.5em)
     if it.numbering != none [#counter(heading).display() #h(0.35em)]
+    it.body
+    v(-0.2em)
+    line(length: 100%, stroke: 0.4pt + c-rule)
+  })
+  show heading.where(level: 4): it => block(above: 1.1em, below: 0.5em, breakable: false, {
+    set text(size: 10.5pt, weight: "bold", fill: c-accent)
     it.body
   })
 
@@ -98,23 +110,26 @@
   show ref: set text(fill: c-accent)
 
   // ---- lists --------------------------------------------------------
-  set list(indent: 0.6em, spacing: 0.75em)
-  set enum(indent: 0.6em, spacing: 0.75em, numbering: "1.")
+  set list(indent: 0.8em, body-indent: 0.7em, spacing: 0.95em, marker: (text(fill: c-accent)[•], text(fill: c-accent)[–]))
+  set enum(indent: 0.8em, body-indent: 0.7em, spacing: 0.95em, numbering: n => text(fill: c-accent, weight: "bold")[#n.])
 
   // ---- tables: light, book-style -----------------------------------
   set table(
     stroke: (x, y) => (
-      top: if y == 0 { 1pt + c-ink } else if y == 1 { 0.7pt + c-ink } else { 0pt },
-      bottom: 0pt,
+      top: if y == 0 { 1pt + c-accent } else { 0pt },
+      bottom: 0.4pt + c-rule,
     ),
-    inset: (x: 0.7em, y: 0.55em),
+    fill: (x, y) => if y == 0 { c-bg-soft } else if calc.odd(y) { c-bg-soft.lighten(55%) } else { none },
+    inset: (x: 0.8em, y: 0.65em),
     align: left + horizon,
   )
-  show table.cell.where(y: 0): set text(weight: "bold")
+  show table.cell.where(y: 0): set text(weight: "bold", fill: c-accent2)
+  show table: it => block(above: 1.1em, below: 1.1em, it)
 
   // ---- figures -----------------------------------------------------
   show figure.caption: set text(size: 9.5pt, fill: c-muted)
-  set figure(gap: 0.9em)
+  set figure(gap: 1em)
+  show figure: set block(above: 1.4em, below: 1.4em)
 
   // ---- code / algorithm blocks (codly) ---------------------------
   show: codly.lang-set_(languages: codly-languages)
@@ -141,11 +156,11 @@
   it,
 )
 
-#let definition = mathblock(blocktitle: "Definition", counter: _mathcnt,
+#let definition = mathblock(blocktitle: "Definition", counter: _mathcnt, fill: c-bg-soft, stroke: (left: 2.5pt + c-accent), inset: 0.8em, radius: 3pt, above: 1.2em, below: 1.2em, width: 100%, 
   titlix: title => [ (#title).])
-#let theorem = mathblock(blocktitle: "Theorem", counter: _mathcnt,
+#let theorem = mathblock(blocktitle: "Theorem", counter: _mathcnt, fill: c-bg-soft, stroke: (left: 2.5pt + c-accent), inset: 0.8em, radius: 3pt, above: 1.2em, below: 1.2em, width: 100%, 
   titlix: title => [ (#title).])
-#let property = mathblock(blocktitle: "Property", counter: _mathcnt,
+#let property = mathblock(blocktitle: "Property", counter: _mathcnt, fill: c-bg-soft, stroke: (left: 2.5pt + c-accent), inset: 0.8em, radius: 3pt, above: 1.2em, below: 1.2em, width: 100%, 
   titlix: title => [ (#title).])
 #let lrule = mathblock(blocktitle: "Learning Rule", counter: _mathcnt,
   titlix: title => [ — #title.])
