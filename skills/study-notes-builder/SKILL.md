@@ -65,6 +65,13 @@ doc, or answering one conceptual question.
   text: `bash <skill>/scripts/extract.sh "<src_dir>" "<out_dir>"`
   (wraps `lit parse`; falls back to per-file). Otherwise Read each file
   (PDFs via the `pages` arg).
+- **Image-heavy sources:** slides that are pictures or scans have little or no
+  text layer. `extract.sh` flags pages with under 15 words
+  (`<name>.imgpages.txt`) and OCRs them with `tesseract` (`<name>.ocr.txt`). For
+  PPTX/images and for flagged pages, also render the page (`pdftoppm -r 150`)
+  and Read the PNG: OCR misses diagrams, tables and formulas. Digest agents must
+  report OCR quality per source and treat flagged pages as content to cover,
+  not skip. Tell the user which sources were OCR'd.
 - If the user gave only topics / a syllabus with no documents, note that the
   build is knowledge-base-driven and the digest step is skipped.
 
@@ -77,7 +84,7 @@ Ask it to report, per source:
 - every formula (transcribed from the OCR as best it can)
 - every worked numerical example (inputs given, method)
 - diagrams/architectures described
-- OCR quality (clean / messy / garbled)
+- OCR quality (clean / messy / garbled), and which pages needed OCR or a visual read
 
 …then a synthesis: the logical teaching order across all sources, the topic
 clusters, and **which standard syllabus topics are absent** (so you can propose

@@ -24,6 +24,35 @@ emit() {
   echo "[extract] $f -> $OUT/$base.txt" >&2
   lit parse "$f" > "$OUT/$base.txt" 2>/dev/null || \
     echo "[extract] FAILED on $f" >&2
+  case "${f,,}" in *.pdf) ocr_pdf "$f" ;; esac
+}
+
+# Image-heavy PDFs (slides that are pictures, scans): find low-text pages and OCR
+# them with tesseract. Writes <base>.ocr.txt and <base>.imgpages.txt; pages in
+# imgpages.txt should also be looked at (render with pdftoppm, Read the PNG).
+ocr_pdf() {
+  local f="$1" base n p words
+  base="$(basename "${f%.*}")"
+  command -v pdftotext >/dev/null 2>&1 || return 0
+  n="$(pdfinfo "$f" 2>/dev/null | awk '/^Pages:/{print $2}')"
+  : > "$OUT/$base.imgpages.txt"
+  for p in $(seq 1 "${n:-0}"); do
+    words="$(pdftotext -f "$p" -l "$p" "$f" - 2>/dev/null | wc -w)"
+    [ "$words" -ge 15 ] && continue
+    echo "$p" >> "$OUT/$base.imgpages.txt"
+    if command -v tesseract >/dev/null 2>&1; then
+      pdftoppm -r 200 -f "$p" -l "$p" -png "$f" "$OUT/.ocr-$base" 2>/dev/null
+      for img in "$OUT"/.ocr-"$base"*.png; do
+        { echo "=== page $p ==="; tesseract "$img" - 2>/dev/null; } >> "$OUT/$base.ocr.txt"
+        rm -f "$img"
+      done
+    fi
+  done
+  if [ -s "$OUT/$base.imgpages.txt" ]; then
+    echo "[extract] $base: $(wc -l < "$OUT/$base.imgpages.txt")/$n low-text pages -> $OUT/$base.imgpages.txt (OCR in $base.ocr.txt)" >&2
+  else
+    rm -f "$OUT/$base.imgpages.txt"
+  fi
 }
 
 if [ -d "$SRC" ]; then
