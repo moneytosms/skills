@@ -11,7 +11,7 @@
 
 #definition("Cache coherence")[
   All caches see one consistent value for each memory location.
-  #sref[Unit I, slides 55-60]
+  #sref[Unit I]
 ]
 
 === Why it is needed
@@ -43,8 +43,8 @@
 + Other caches mark X *Invalid*.
 + A's copy becomes *Modified*.
 
-#keyform[
-  $ "miss rate" = "misses" / "accesses" $ where #h(0.3em) misses $<=$ accesses.
+#keyform(legend: (([misses], [failed lookups]), ([accesses], [all lookups])))[
+  $ "miss rate" = "misses" / "accesses" $
 ]
 
 #figure(
@@ -61,6 +61,8 @@
 )
 
 #pitfall[Coherence is not consistency: it orders writes to *one* address only.]
+// Only where the source is wrong or silent (unit name only, no slide numbers):
+// #sourcecheck(source: "Unit I")[Source omits the write-back case; added here.]
 #tip[Exam: always state the state of *every* cache after each step.]
 
 #practice(([Define coherence in one line.], [Compare snooping and directory in 3 points.]), tag: "Coherence")

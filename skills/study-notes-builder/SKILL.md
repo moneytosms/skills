@@ -1,6 +1,6 @@
 ---
 name: study-notes-builder
-description: Build a single polished PDF of detailed, exam-oriented study notes from source material — lecture PDFs/PPTs, existing notes, a syllabus, or just a list of topics. Use when the user asks to "make notes / a cheatsheet / detailed notes / a study guide" for a subject and wants intuition + formulae + worked examples + diagrams + pitfalls, built with Typst. Searches Typst packages for domain diagrams, uses a verified diagram gallery and latest package versions. Runs an intake → grill → digest/recon → verify-numerics → build → review loop and delivers a compiled PDF plus modular .typ sources.
+description: Build a single polished PDF of detailed, exam-oriented study notes from source material — lecture PDFs/PPTs, existing notes, a syllabus, or just a list of topics. Use when the user asks to "make notes / a cheatsheet / detailed notes / a study guide" for a subject and wants intuition + formulae + worked examples + diagrams + pitfalls, built with Typst. Searches Typst packages for domain diagrams, uses a verified diagram gallery and latest package versions. Starts with a short wizard (note type, engine, visual level), then runs digest/recon → grill → verify-numerics → build → review and delivers a compiled PDF plus modular .typ sources.
 ---
 
 # Study Notes Builder
@@ -31,7 +31,7 @@ doc, or answering one conceptual question.
    question format in step 3.
 2. **Verify every number.** Every worked numerical example is recomputed from
    scratch in a throwaway script (`scratchpad/verify/*.py`) and the notes show
-   the verified value. Where it diverges from the source deck, add a margin note.
+   the verified value. Where the verified value differs from the source, state it and add a margin note. The note never names the source.
    Do this *before* writing the prose for that section.
 3. **Zero-warning compile gate.** `typst compile main.typ out.pdf` must exit 0
    with no warnings (Typst warns on overflow boxes and unresolved refs — treat
@@ -55,8 +55,61 @@ doc, or answering one conceptual question.
    referenced from N spots gets N stacked `#backlink(...)` markers. This applies
    to the practice-answer-key ↔ practice-question link, the pitfall-index ↔
    body-callout link, and formula-sheet ↔ first-derivation link especially.
+8. **Notes stand alone.** The reader must never need the source to use the notes.
+   Prose never refers to the source: no "the deck", "the slide", "the lecture",
+   "the PDF", "the source", and no slide or page numbers. The only source
+   mention allowed is the light `sref` tag (see Source tag in the writing rules) and the
+   visible `sourcecheck` callout (unit/lecture name only). No slide numbers unless the
+   user explicitly asks for slide-level provenance. Source pages live in `coverage.md`.
+9. **The config is the contract.** `notes-config.md` (recipe + verbatim remarks)
+   decides what goes in; check every section and the final build against it.
 
 ## Workflow
+
+### 0. Wizard — build your own notes
+
+The user assembles a recipe; you record it in `notes-config.md`
+(`references/notes-config.md` is the template). Two rounds of
+`AskUserQuestion` (max 4 questions each, recommended answer first), then one
+free-text prompt. Skip fields the user already stated.
+
+**Round A (shape):**
+1. **Note type:** *Quick revision* (dense, formulas + pitfalls, no derivations),
+   *Detailed study* (default), *Exam notes* (detailed + study order, exam-priority
+   table, quick checks), *Handbook* (lookup: formula sheet, comparison tables, index).
+2. **Engine:** *Typst* (default; math-heavy), *Typst + embedded visuals*
+   (hero/3D/plot figures made in HTML/Three.js/matplotlib, embedded as PNG),
+   *HTML to PDF* (`references/html-kit`, `scripts/html-to-pdf.sh`; visual
+   subjects). Recommend by subject.
+3. **Visual level:** *Plain*, *Balanced* (default: a real figure per topic plus
+   chapter heroes), *Rich* (heavy 3D/illustrated even where content is not
+   naturally visual; honest analogies). See `references/rich-visuals.md`.
+4. **Density and tone:** concise / normal / thorough, and terse / friendly / formal.
+
+**Round B (ingredients), multi-select:**
+5. **Per-topic blocks** (pick what to include): intuition, derivations, worked
+   examples (ask count), practice (ask count), pitfalls, exam tips, mnemonics,
+   quick checks, source checks, comparison tables.
+6. **Front/end matter:** study order + exam priority, formula sheet, pitfall index,
+   glossary, problem-attack guide, answer key, source-check register.
+7. **Look:** chapter covers (none / banner / banner+hero), colour (one accent /
+   per-chapter / custom).
+8. **Scope:** what to emphasise or skip, notation target.
+
+**Then ask in plain chat:** "Additional remarks? Anything you want done or
+avoided, in your own words." Record it verbatim under *Additional remarks*.
+Repeat this prompt at the end of every grill round.
+
+**Remarks are binding.** They override defaults and recipe fields. If a remark
+conflicts with a hard rule or gate, say so, ask once, record the decision under
+*Conflicts noted*; hard rules stand unless the user waives them explicitly.
+Show the filled `notes-config.md`, get a yes, and re-read it before each section.
+Pass it verbatim to every writer subagent. Step 7 checks the build against it.
+
+Mode defaults when a field is left unset: Quick = no derivations, 1 example per
+topic, no practice, no covers; Exam = study order + exam-priority table + a
+`check` per topic; Detailed = as specified below; Handbook = formula sheet,
+comparison matrices and index first-class.
 
 ### 1. Intake — gather and extract sources
 
@@ -86,6 +139,9 @@ Ask it to report, per source:
 - diagrams/architectures described
 - OCR quality (clean / messy / garbled), and which pages needed OCR or a visual read
 
+Before dispatching, tell the user it is working and give an honest ETA
+(roughly 1 min per 10 source files or 100 pages; say "grab a coffee" if over ~3 min). Ask nothing more until the report is back.
+
 …then a synthesis: the logical teaching order across all sources, the topic
 clusters, and **which standard syllabus topics are absent** (so you can propose
 augmentation). Keep the subagent read-only.
@@ -114,7 +170,7 @@ settled; number them and give a recommended answer; then wait. Format:
 ➡️ <your recommended answer>
 ```
 
-Cover at least:
+Cover at least (skip what notes-config.md already settles):
 
 - **Scope / augmentation depth** — source topics only + light augmentation, or
   source topics + the adjacent foundations they assume, or the full standard
@@ -130,8 +186,9 @@ Cover at least:
   node-graphs, function plots, geometry sketches, signal-flow.
 - **Document skeleton** — the ordered part/chapter list; confirm it.
 - **Deliverable form** — `.typ` sources + compiled PDF + README (default yes).
-- **Source screenshots** — include cropped slide figures where clearer than a
-  redraw (recommend yes).
+- **Source screenshots / redraws** — crop source figures where clearer; redraw
+  (Typst diagram or `rich-visuals`) where the original is blurry, cluttered or a
+  3D plot that deserves a proper render (recommend: screenshot if sharp, else redraw).
 - **Colour / print** — colour-first screen, print-safe (callouts distinguished
   by icon *and* label, diagrams legible in greyscale).
 
@@ -139,7 +196,13 @@ Recompute the frontier after each round. Stop when nothing is left unasked, then
 present a short written plan (Goal / Constraints / Structure / Deliverables /
 Verification) and get an explicit yes.
 
-### 4. Scaffold the Typst project
+### 4. Scaffold the project
+
+HTML track: copy `references/html-kit/` (`notes.css`, `skeleton.html`) instead of
+the Typst files, write one `.html` per Part, build with
+`bash <skill>/scripts/html-to-pdf.sh main.html out.pdf`. Hard rules, verify
+scripts, coverage and structure gates apply unchanged (structure-check reads
+`.typ` only: review HTML pages by rendering to PNG). Typst layout below.
 
 Create in the user's chosen directory:
 
@@ -174,7 +237,7 @@ sample (neural-network numerics) to pattern-match against.
 Wherever a source slide diagram, table or equation image explains better than a
 redraw, screenshot it: render the page (`pdftoppm`), Read the PNG to pick the
 crop box, crop tight (no slide chrome), save in `figs/`, and embed as
-`#figure(image("figs/..."), caption: [...#sref[Lecture N, slide M]])`. Redraw
+`#figure(image("figs/..."), caption: [...#sref[Lecture N]])`. Redraw
 only if the source image is blurry or cluttered. Commands in
 `references/typst-cookbook.md` > Screenshots. Ask about screenshots in the grill.
 
@@ -193,13 +256,26 @@ Read `references/topic-example.typ` and copy its shape for every topic.
   diagram or source screenshot; numbers = `worked`; traps = `pitfall`/`tip`.
 - **No paragraph walls:** a paragraph is <= 3 lines and rare. If a paragraph
   lists things, make it bullets; if it compares things, make it a table.
-- **Source refs:** one `sref` per topic (in the definition or a caption), never
-  per sentence.
+- **Source check:** where the source has an error, gap or inconsistency, use
+  `sourcecheck[...]` naming only the unit/lecture, and list each in the
+  end-matter register (Where / Issue / Used). Never silently fix.
+- **Notation:** if the notes' symbols differ from the source's, add one
+  `notemap(...)` row in the front matter or first use.
+- **Callout discipline:** `intuition`, `pitfall`, `watch`, `tip` as needed;
+  `trick` (mnemonics) and `check` only where one really exists, never every
+  topic. Key formulas get `keyform(..., legend: ((sym, meaning), ...))`.
+- **Chapter cover (balanced/rich, detailed/exam):** open each chapter with
+  `chapter-cover(colour, title, topics:, learn:, hero:)` and a distinct colour
+  per chapter; the hero is a real figure (see `references/rich-visuals.md`).
+- **Source tag:** one `sref` per topic (in the definition or a caption), light
+  form only: unit or lecture name, no slide or page numbers, e.g.
+  `#sref[Unit I]`. Never per sentence.
 - **Spine per topic** (skip only what truly does not exist): intuition (1-3
   lines) > definition/formula boxes > method steps > worked examples (every
   source problem + 2 extra) > pitfalls > practice (3-5).
-- **Coverage:** every source slide is accounted for (see Gates below). Go
-  slide cluster by slide cluster; each cluster becomes at least one H3.
+- **Coverage:** every source page is mapped in `coverage.md` (see Gates below).
+  Organize sections by concept, not source order. Coverage lives in the ledger,
+  never in the prose.
 
 **Gates, both must pass before delivery:**
 `python3 <skill>/scripts/coverage-check.py <proj>` (keep `coverage.md`: one row
@@ -211,7 +287,7 @@ failure, restructure the section; never loosen the thresholds. Writer agents run
 
 End-matter Part: master formula sheet (showybox cards), comparison matrices
 (`tablem`), pitfall index (numbered, body callouts point here), symbol
-glossary, a "how to attack a problem" table + `fletcher` decision flowchart,
+glossary, the source-check register (Where / Issue / Used, from every `sourcecheck`), a "how to attack a problem" table + `fletcher` decision flowchart,
 and the practice answer key (final answers only, keyed by topic).
 
 Wire the end-matter with `xref` / `backlink` (hard rule 6): every answer-key
@@ -224,6 +300,9 @@ downloads the packages (needs network once). Fix every error and warning before
 moving on. Read `references/typst-cookbook.md` for the syntax traps.
 
 ### 7. Review pass — density and gaps
+
+First check the build against `notes-config.md`: every requested block and
+matter present, nothing excluded present, each remark visibly honoured. Fix gaps.
 
 Run both gates first. Then render a sweep of pages to PNG and actually look. Any
 page that reads as a block of text, or lacks visible separation (headings,
@@ -296,7 +375,11 @@ Baseline (swap or add per recon): `cetz`, `cetz-plot` (or `lilaq`), `fletcher`,
 - `references/template.typ` — proven styles + `notes-conf` + all helpers
   (`intuition`, `tip`, `watch`, `pitfall`, `remember`, `derivation`,
   `definition`, `theorem`, `property`, `lrule`, `worked`, `practice`, `algo`,
-  `keyform`, `sref`, `xref`, `backlink`, `part`). Copy verbatim.
+  `keyform`, `sref`, `xref`, `backlink`, `part`, plus `trick`, `check`, `sourcecheck`,
+  `pill`, `notemap`, `chapter-cover`). Copy verbatim.
+- `references/notes-config.md` — the recipe + binding remarks template (wizard output).
+- `references/rich-visuals.md` — 3D/hero figures via headless chromium (Three.js, canvas, SVG), embed as PNG.
+- `references/html-kit/` + `scripts/html-to-pdf.sh` — HTML to PDF track (same palette and callout names; KaTeX for math).
 - `references/diagrams.typ` — proven CeTZ/cetz-plot/fletcher builders
   (`layered-net`, `neuron`, `act-plot`, `decision-boundary`, `signal-flow-bpn`,
   `gaussian-kernel`, `delay-line`, `pattern-grid`, `nm`). Copy verbatim; add

@@ -27,6 +27,9 @@
 #let c-rule     = rgb("#d8d8e0")
 #let c-bg-soft  = rgb("#f6f7f9")
 
+// Per-chapter colour: chapter-cover() sets it; H1/H2 and cover pills read it.
+#let chap-color = state("chap-color", c-accent)
+
 // ---------------------------------------------------------------------------
 //  Numbered-equation counter that resets each chapter (level-1 heading)
 // ---------------------------------------------------------------------------
@@ -70,23 +73,31 @@
   show heading: set text(fill: c-ink)
   show heading.where(level: 1): it => {
     eqn-counter.update(0)
-    block(above: 1.8em, below: 0.9em, breakable: false, {
-      set text(size: 18pt, weight: "bold", fill: c-accent)
-      if it.numbering != none [#counter(heading).display() #h(0.5em)]
-      it.body
-      v(0.35em)
-      line(length: 100%, stroke: 1pt + c-accent)
-    })
+    context {
+      let cc = chap-color.get()
+      block(above: 1.8em, below: 0.9em, breakable: false, width: 100%,
+        fill: cc.lighten(88%), stroke: (left: 5pt + cc), inset: (x: 1em, y: 0.9em), radius: 4pt, {
+        if it.numbering != none {
+          box(fill: cc, inset: (x: 0.55em, y: 0.3em), radius: 3pt,
+            text(size: 14pt, weight: "bold", fill: white, counter(heading).display()))
+          h(0.7em)
+        }
+        text(size: 20pt, weight: "bold", fill: cc.darken(25%), it.body)
+      })
+    }
   }
-  show heading.where(level: 2): it => block(
-    above: 2em, below: 0.9em, breakable: false, width: 100%,
-    fill: c-bg-soft, inset: (x: 0.7em, y: 0.5em), radius: 3pt,
-    stroke: (left: 3pt + c-accent2),
-    {
-      set text(size: 13.5pt, weight: "bold", fill: c-accent2)
-      if it.numbering != none [#counter(heading).display() #h(0.4em)]
-      it.body
-    })
+  show heading.where(level: 2): it => context {
+    let cc = chap-color.get()
+    block(
+      above: 2em, below: 0.9em, breakable: false, width: 100%,
+      fill: c-bg-soft, inset: (x: 0.7em, y: 0.5em), radius: 3pt,
+      stroke: (left: 3pt + cc),
+      {
+        set text(size: 13.5pt, weight: "bold", fill: cc.darken(15%))
+        if it.numbering != none [#counter(heading).display() #h(0.4em)]
+        it.body
+      })
+  }
   show heading.where(level: 3): it => block(above: 1.5em, below: 0.7em, breakable: false, width: 100%, {
     set text(size: 11.5pt, weight: "bold", fill: c-ink)
     box(width: 3pt, height: 0.9em, fill: c-accent, baseline: 0.1em)
@@ -184,6 +195,17 @@
 #let mini(body, title: "Example") = _aside(c-muted, title, body)
 #let derivation(body, title: "Derivation (skippable)") = _aside(c-muted, title, text(size: 0.95em, body))
 
+// Use sparingly: only where the topic really has one. Never all on every page.
+#let trick(body, title: "Memory trick") = _aside(c-accent2, title, body)
+#let check(body, title: "Quick check") = _aside(c-good, title, body)
+
+// Visible correction/gap in the source. Name the unit/lecture only, no slide or
+// page numbers (rule 8). Collect all of them in the end-matter register.
+#let sourcecheck(body, source: none) = block(
+  width: 100%, above: 1em, below: 1em, inset: 0.7em, radius: 3pt,
+  fill: c-warn.lighten(88%), stroke: (left: 2.5pt + c-warn),
+)[#text(fill: c-warn, weight: "bold")[⚑ Source check#if source != none [ (#source)].] #body]
+
 // ===========================================================================
 //  WORKED EXAMPLE  —  identical Given / Find / Solution / Answer skeleton
 // ===========================================================================
@@ -247,12 +269,47 @@
   for s in steps [+ #s]
 })
 
-// key-formula highlight strip
-#let keyform(body) = block(
+// key-formula highlight strip; legend: ((sym, meaning), ...) renders a symbol key
+#let keyform(body, legend: none) = block(
   width: 100%, inset: 0.8em, radius: 3pt,
   fill: c-bg-soft, stroke: (left: 2.5pt + c-accent),
-  body,
+  {
+    body
+    if legend != none {
+      v(0.3em)
+      set text(size: 9.5pt, fill: c-muted)
+      grid(columns: (auto, 1fr, auto, 1fr), column-gutter: 0.6em, row-gutter: 0.4em,
+        ..legend.map(((s, m)) => (text(fill: c-ink)[#s], m)).flatten())
+    }
+  },
 )
+
+// small rounded tag
+#let pill(body, color: c-accent) = box(
+  fill: color.lighten(85%), stroke: 0.5pt + color.lighten(40%), radius: 8pt,
+  inset: (x: 0.6em, y: 0.25em), baseline: 0.2em,
+  text(size: 8.5pt, fill: color.darken(20%), weight: "medium", body))
+
+// notation crosswalk when the notes' symbols differ from the source's:
+//   #notemap(([$W$], [$w$]), ([$beta$], [$tau$]))
+#let notemap(..pairs) = block(above: 0.7em, below: 0.7em, {
+  text(size: 8.5pt, fill: c-muted)[Source writes #h(0.4em)]
+  for (a, b) in pairs.pos() [#pill(color: c-muted)[#a #sym.arrow.r #b] #h(0.2em)]
+})
+
+// chapter opener: sets the chapter colour, emits the H1, then topic pills, a
+// one-line "you will learn" and an optional hero figure (any content).
+//   #chapter-cover(rgb("#3b7a78"), "Newton's method",
+//     topics: ("Hessian", "Quadratic model"), learn: [Use curvature to pick the step.],
+//     hero: image("figs/hero-newton.png", width: 80%))
+#let chapter-cover(color, title, topics: (), learn: none, hero: none) = {
+  pagebreak(weak: true)
+  chap-color.update(color)
+  heading(level: 1, title)
+  if topics.len() > 0 { topics.map(t => pill(color: color, t)).join(h(0.3em)) }
+  if learn != none { block(above: 0.8em, below: 0.6em, text(size: 11pt, fill: c-muted)[*You will learn.* #learn]) }
+  if hero != none { align(center, block(above: 1em, below: 1.2em, hero)) }
+}
 
 // part divider page
 #let part(n, title, blurb) = {
