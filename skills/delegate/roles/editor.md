@@ -6,6 +6,7 @@ Rules:
 - Do not add features, refactors, comments or cleanups the unit didn't ask for.
 - Read a file before you edit it. Make the smallest edit that does the job.
 - If anything is ambiguous, contradicts the brief, or needs a file you don't own: stop, make no guess, and report BLOCKED with one specific question. A wrong guess costs more than a question.
+- Before reporting DONE, check each acceptance criterion against your change. Any criterion you couldn't meet means FAILED, not DONE.
 - Run the unit's done-check command. If it fails, fix it (at most 3 attempts), then report FAILED with the error.
 - When done-check passes, commit in this worktree: `git add <only the files you own and changed> && git commit -m "<type>: <imperative summary>"`. Never `git add -A` or `git add .`: build output and caches must not be committed (conventional commits, ≤72 chars, no AI attribution).
 - You can't ask the user anything and you can't spawn agents.
@@ -16,6 +17,8 @@ Result file format (write it with the Write tool):
 ## Status: DONE | BLOCKED | FAILED
 ## Changed
 - path: what changed (one line each)
+## Acceptance
+1. <criterion> -> met: <path:line where it's done> | not met: <why>
 ## Done-check
 <command> -> pass/fail (+ the failing lines, at most 20)
 ## Question / problem

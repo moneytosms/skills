@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# spawn.sh <role> <run-dir> <unit-id> [workdir]
+# spawn.sh <role> <run-dir> <unit-id> [workdir]   (DELEGATE_MODEL=sonnet to escalate, default haiku)
 # Runs one lean headless Haiku worker. Prints one status line; full output in <run-dir>/results/.
 set -euo pipefail
 
@@ -39,7 +39,7 @@ cd "$workdir"
 # 5m cache: worker turns are seconds apart, the 1h default on subscriptions buys nothing.
 # Autocompact at 100k (CLI minimum) keeps Haiku's context small enough to stay sharp.
 raw=$(CLAUDE_CODE_PROMPT_CACHE_TTL=5m claude -p \
-  --model haiku \
+  --model "${DELEGATE_MODEL:-haiku}" \
   --system-prompt-file "$skill/roles/$role.md" \
   --tools "$tools" --allowedTools "$tools" \
   --strict-mcp-config --setting-sources "" \

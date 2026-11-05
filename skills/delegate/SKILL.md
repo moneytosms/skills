@@ -13,7 +13,7 @@ Task: $ARGUMENTS
 
 ## Hard rules
 
-- **You do no legwork.** No Read/Grep/Glob/WebSearch/WebFetch on the project or web, and no edits. Every question you have becomes a scout unit. Allowed yourself: reading files in the run dir, `git status`/`git log`/`git diff --stat`, the scripts below, and the two exceptions under Repair.
+- **You do no legwork.** No Read/Grep/Glob/WebSearch/WebFetch on the project or web, and no edits. Every question you have becomes a scout unit. Allowed yourself: reading files in the run dir, `git status`/`git log`/`git diff`, reading the exact `path:line` ranges a scout cites (Claim check), the scripts below, and the exceptions under Repair.
 - **Workers only through `spawn.sh`.** Never use the Agent tool for workers: a lean worker starts at ~5k tokens of context instead of ~36k.
 - **Results live in files.** Read `results/<unit>.md` only when you need it. Don't read the `.json` files.
 - **Write scopes never overlap within a wave.** Editors in the same wave own disjoint files.
@@ -39,13 +39,14 @@ One unit = one file `$RUN/units/<id>.md` (ids like `s1`, `e1`, `v1`). Launch eac
 
 It prints one status line when it exits (`<id> DONE: ...`, `BLOCKED: ...`, or `FAILED: ...`). You get a notification per worker. Wait for the whole wave before acting on it.
 
-A unit file contains: goal (1 line), exact questions or steps, files owned (editors), the done-check command, and anything unit-specific. It does **not** repeat the brief. Workers can't ask you anything, so make units concrete: name paths, functions, commands. Vague unit = wasted worker.
+A unit file contains: goal (1 line), exact questions or steps, files owned (editors), **acceptance criteria** (editors: a numbered list copied from the ticket, or written by you when there's no ticket), the done-check command, and anything unit-specific. It does **not** repeat the brief. Workers can't ask you anything, so make units concrete: name paths, functions, commands. Vague unit = wasted worker.
 
 ## Phase 1: Recon (scouts)
 
 1. Split your unknowns into 2-6 scout units. Typical ones: where the relevant code lives and how it's structured, conventions and test commands, each ticket's content and acceptance criteria (`gh issue view <n> --comments`), library/API behaviour (web), risks and conflicts between tickets.
-2. Spawn the wave. Read the results. Low-confidence claims that matter to a decision get a follow-up scout, not your own lookup.
-3. Update `brief.md` with the repo facts you learned.
+2. Spawn the wave. Read the results. Ticket scouts must return each ticket's acceptance criteria as a numbered list.
+3. **Claim check:** for every finding a decision will rest on, read only the `path:line` range the scout cited (a few lines, never the whole file) and confirm it says what the scout claims. A wrong claim invalidates that scout's other findings: re-run it with a sharper unit. Low-confidence claims that matter get a follow-up scout, not your own lookup.
+4. Update `brief.md` with the repo facts you learned.
 
 ## Phase 2: Questions
 
@@ -82,9 +83,12 @@ Per wave:
    "${CLAUDE_SKILL_DIR}/scripts/wt.sh" add "$RUN" <unit-id>   # prints the worktree path
    ```
    Worktrees don't share untracked deps (`node_modules`, `.venv`, build output). If the done-check needs them, put the install step in the unit, or use a cheaper check and leave the full run to the verifier.
-2. Write a complete brief into each unit: the exact changes, the decisions that apply, which files it owns, the done-check. When several units follow the same pattern, put one concrete example under "Patterns to copy" in `brief.md`.
+2. Write a complete brief into each unit: the exact changes, the decisions that apply, which files it owns, the acceptance criteria, the done-check. When several units follow the same pattern, put one concrete example under "Patterns to copy" in `brief.md`.
 3. Spawn all editors of the wave in one message, each with its worktree path as `workdir`.
-4. When the wave is done, review each DONE unit with `git -C <worktree> diff HEAD~1 --stat` and spot-check the riskiest hunk. A diff that touches files outside its scope, or doesn't match the brief, counts as FAILED.
+4. **Review each DONE unit against its acceptance criteria.** Passing tests is not the same as doing the ticket.
+   - Run `git -C <worktree> diff HEAD~1 --stat`. If the diff is under ~300 lines, read all of it (`git -C <worktree> diff HEAD~1`). If it's bigger, read the files that carry the criteria plus the riskiest hunk.
+   - Check every criterion against the diff yourself. Don't trust the editor's "met" claims. Also check scope (only owned files) and that the brief's decisions were followed.
+   - Any criterion unmet, out-of-scope files, or decisions ignored = FAILED. Write in the unit which criterion failed and why, for Repair.
 5. Merge the wave's DONE units into the current branch, one at a time:
    ```bash
    "${CLAUDE_SKILL_DIR}/scripts/wt.sh" merge "$RUN" <unit-id>
@@ -100,9 +104,29 @@ Write a verifier unit with the full build/lint/test commands and the list of whi
 
 - **BLOCKED:** answer the question in `brief.md` (or ask the user if it's theirs to answer). Re-run the same unit once in a fresh worktree, or in the same one if its work is still valid.
 - **FAILED:** rewrite the unit with what went wrong and what to do instead, then re-run once.
-- **Failed twice:** do it yourself. This is the only time you edit project files besides merge conflicts. Note it in the report.
+- **Failed twice, small fix** (a few lines, the cause is clear): do it yourself. This and merge conflicts are the only times you edit project files. Note it in the report.
 
-Never loop a unit more than twice.
+Never loop a Haiku unit more than twice.
+
+### Escalation (rare: ask first)
+
+Escalate only when it's serious. Triggers:
+- A unit failed twice and the fix is not small.
+- Haiku's output is badly wrong in a way a retry won't fix: wrong approach, broke unrelated behaviour, or misread the ticket at its core.
+- Recon shows a unit needs real judgment Haiku can't be briefed into: tricky concurrency, security-sensitive code, a subtle cross-module refactor.
+
+Ordinary failures (a missed criterion, a failing test, a small slip) go through normal Repair, never escalation. Expect zero escalations in most runs.
+
+When a trigger hits, **ask the user with AskUserQuestion** before spawning anything stronger. State the unit, what went wrong in 1-2 lines, and the options:
+1. **Sonnet worker** (recommended for most cases): the same unit, re-run with a stronger model.
+2. **Opus fixes it itself**: when it needs the full plan's context.
+3. **Skip the unit**: leave it unmerged, report it.
+
+On approval, rewrite the unit with the failure history, then run:
+```bash
+DELEGATE_MODEL=sonnet "${CLAUDE_SKILL_DIR}/scripts/spawn.sh" editor "$RUN" <unit-id> <worktree>
+```
+The same review (step 4) applies to its output. Its approval covers that one unit only: ask again for any other unit.
 
 ## Cleanup (always, even on abort or failure)
 
@@ -120,7 +144,7 @@ Leave the run dir. It's under the system temp dir and holds the results if the u
 | unit | ticket | status | commit | notes |
 ```
 
-Then: merged into `<branch>`, verify result, anything you had to do yourself, any kept branches. End with the concrete next command (e.g. `git log --oneline -<n>` to review, or `pnpm test <x>` for a flaky area).
+Then: merged into `<branch>`, verify result, anything you had to do yourself, any escalations and why, any kept branches. End with the concrete next command (e.g. `git log --oneline -<n>` to review, or `pnpm test <x>` for a flaky area).
 
 ## Lessons
 
