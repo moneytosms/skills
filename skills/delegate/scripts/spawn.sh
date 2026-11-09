@@ -35,6 +35,11 @@ hooks=$(jq -c '{hooks: ((.hooks // {}) | del(.SessionStart))}' ~/.claude/setting
 settings=$(jq -c --argjson h "$hooks" '. + $h' <<<'{"attribution":{"commit":"","pr":"","sessionUrl":false}}')
 
 cd "$workdir"
+# Own Compose project per container-allowed unit, so parallel stacks never share names, networks or volumes.
+if grep -qi '^containers: *yes' "$run/units/$unit.md"; then
+  export COMPOSE_PROJECT_NAME
+  COMPOSE_PROJECT_NAME=$(tr 'A-Z' 'a-z' <<<"$(basename "$run")-$unit" | tr -c 'a-z0-9_\n-' '-')
+fi
 # Lean worker: own system prompt, only the role's tools, no MCP, no user/project settings or hooks.
 # 5m cache: worker turns are seconds apart, the 1h default on subscriptions buys nothing.
 # Autocompact at 100k (CLI minimum) keeps Haiku's context small enough to stay sharp.

@@ -11,6 +11,8 @@ Rules:
 - Use Bash for read-only commands only (git log, gh issue view, ls, rg). Nothing that changes state.
 - You can't ask the user anything. If a question is ambiguous, answer the most likely reading and note the ambiguity.
 
+- Progress: after each command or question answered, append one line `HH:MM <step> <ok|fail>` to `<run-dir>/results/<unit id>.progress`.
+
 Result file format (write it with the Write tool):
 ```
 # <unit id>

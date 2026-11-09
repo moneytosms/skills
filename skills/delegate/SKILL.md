@@ -16,7 +16,8 @@ Task: $ARGUMENTS
 - **You do no legwork.** No Read/Grep/Glob/WebSearch/WebFetch on the project or web, and no edits. Every question you have becomes a scout unit. Allowed yourself: reading files in the run dir, `git status`/`git log`/`git diff`, reading the exact `path:line` ranges a scout cites (Claim check), the scripts below, and the exceptions under Repair.
 - **Workers only through `spawn.sh`.** Never use the Agent tool for workers: a lean worker starts at ~5k tokens of context instead of ~36k.
 - **Results live in files.** Read `results/<unit>.md` only when you need it. Don't read the `.json` files.
-- **Write scopes never overlap within a wave.** Editors in the same wave own disjoint files.
+- **Write scopes never overlap within a wave.** Editors in the same wave own disjoint files. Every editor unit has an `owns:` line listing exact paths (space-separated, no prose like "etc"); run `scripts/owns-check.sh "$RUN" <unit ids>` before spawning a wave, and fix any overlap it prints.
+- **Container tests default to the verifier.** Editors run unit tests, typecheck and lint. Mark a unit `containers: yes` only when its acceptance criteria need DB/stack behaviour (migrations, triggers, transactions); `spawn.sh` then gives it its own Compose project. Run at most 2 such units at once.
 - Stop at local commits/branches. No pushes or PRs unless the task explicitly asks for them.
 
 ## Setup
@@ -39,12 +40,14 @@ One unit = one file `$RUN/units/<id>.md` (ids like `s1`, `e1`, `v1`). Launch eac
 
 It prints one status line when it exits (`<id> DONE: ...`, `BLOCKED: ...`, or `FAILED: ...`). You get a notification per worker. Wait for the whole wave before acting on it.
 
+Workers can't be messaged mid-run. To check on one, read `$RUN/results/<id>.progress` (one line per step) and `git -C <worktree> status --short`. A worker's Bash call is capped at 10 minutes: gates longer than that (full DB/browser suites) go in the verifier phase, which you may run yourself as one background Bash call writing to `$RUN/results/<gate>.log`.
+
 A unit file contains: goal (1 line), exact questions or steps, files owned (editors), **acceptance criteria** (editors: a numbered list copied from the ticket, or written by you when there's no ticket), the done-check command, and anything unit-specific. It does **not** repeat the brief. Workers can't ask you anything, so make units concrete: name paths, functions, commands. Vague unit = wasted worker.
 
 ## Phase 1: Recon (scouts)
 
 1. Split your unknowns into 2-6 scout units. Typical ones: where the relevant code lives and how it's structured, conventions and test commands, each ticket's content and acceptance criteria (`gh issue view <n> --comments`), library/API behaviour (web), risks and conflicts between tickets.
-2. Spawn the wave. Read the results. Ticket scouts must return each ticket's acceptance criteria as a numbered list.
+2. Spawn the wave. Read the results. Ticket scouts must return each ticket's acceptance criteria as a numbered list, and for each criterion the files/components it needs (so ownership covers them and editors don't BLOCK on an unowned file).
 3. **Claim check:** for every finding a decision will rest on, read only the `path:line` range the scout cited (a few lines, never the whole file) and confirm it says what the scout claims. A wrong claim invalidates that scout's other findings: re-run it with a sharper unit. Low-confidence claims that matter get a follow-up scout, not your own lookup.
 4. Update `brief.md` with the repo facts you learned.
 
@@ -104,6 +107,7 @@ Write a verifier unit with the full build/lint/test commands and the list of whi
 
 - **BLOCKED:** answer the question in `brief.md` (or ask the user if it's theirs to answer). Re-run the same unit once in a fresh worktree, or in the same one if its work is still valid.
 - **FAILED:** rewrite the unit with what went wrong and what to do instead, then re-run once.
+- **FAILED on a usage/rate limit:** not the unit's fault and not a retry. After the reset, add a note to the unit that partial work may exist in the worktree, and re-run it in the same worktree.
 - **Failed twice, small fix** (a few lines, the cause is clear): do it yourself. This and merge conflicts are the only times you edit project files. Note it in the report.
 
 Never loop a Haiku unit more than twice.
@@ -134,7 +138,7 @@ The same review (step 4) applies to its output. Its approval covers that one uni
 "${CLAUDE_SKILL_DIR}/scripts/wt.sh" clean "$RUN"
 ```
 
-This removes every worktree of the run, prunes, and deletes merged `delegate/*` branches. Unmerged branches are kept and listed. Tell the user about them. If the user wants per-ticket branches instead of merging into the current branch, skip the merges and run `wt.sh clean "$RUN" --keep-branches`.
+This removes every worktree of the run, prunes, deletes merged `delegate/*` branches, and removes the run's Compose containers and volumes. Unmerged branches are kept and listed. Tell the user about them. If the user wants per-ticket branches instead of merging into the current branch, skip the merges and run `wt.sh clean "$RUN" --keep-branches`.
 
 Leave the run dir. It's under the system temp dir and holds the results if the user wants to dig in.
 

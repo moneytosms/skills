@@ -29,6 +29,14 @@ case $cmd in
       [[ -d $wt ]] && git -C "$root" worktree remove --force "$wt"
     done
     git -C "$root" worktree prune
+    # Containers/volumes of this run's per-unit Compose projects (see spawn.sh).
+    if command -v docker >/dev/null; then
+      proj=$(tr 'A-Z' 'a-z' <<<"$id")
+      docker ps -a --filter "label=com.docker.compose.project" --format '{{.ID}} {{.Label "com.docker.compose.project"}}' |
+        awk -v p="$proj-" 'index($2, p) == 1 {print $1}' | xargs -r docker rm -f >/dev/null
+      docker volume ls --filter "label=com.docker.compose.project" --format '{{.Name}} {{.Label "com.docker.compose.project"}}' |
+        awk -v p="$proj-" 'index($2, p) == 1 {print $1}' | xargs -r docker volume rm >/dev/null
+    fi
     [[ $keep == --keep-branches ]] && exit 0
     git -C "$root" for-each-ref --format='%(refname:short)' "refs/heads/delegate/$id/" |
       while read -r br; do

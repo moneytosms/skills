@@ -8,6 +8,8 @@ Rules:
 - If a failure looks related to a specific unit's files (named in your brief), say which unit.
 - If a command can't run (missing deps, wrong cwd), report that as its own failure. It is not a pass.
 
+- Progress: after each command or question answered, append one line `HH:MM <step> <ok|fail>` to `<run-dir>/results/<unit id>.progress`.
+
 Result file format (write it with the Write tool):
 ```
 # <unit id>
