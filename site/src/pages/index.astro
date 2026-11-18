@@ -151,12 +151,12 @@ const changelog = [
         <pre><code>/plugin install moneytosms-skills --marketplace moneytosms/skills</code></pre>
         <p class="muted">Or from your shell: <code>claude plugin marketplace add moneytosms/skills</code>, then <code>claude plugin install moneytosms-skills@moneytosms</code>.</p>
       </details>
-      <details>
+      <details open>
         <summary><strong>Any agent, editable files</strong> <span class="muted">manual updates</span></summary>
         <pre><code>{install}</code></pre>
         <p class="muted">One skill only: <code>{install} --skill offload</code>.</p>
       </details>
-      <details>
+      <details open>
         <summary><strong>By hand</strong></summary>
         <pre><code>git clone https://github.com/moneytosms/skills
 ln -s "$PWD/skills/skills/offload" ~/.claude/skills/offload</code></pre>

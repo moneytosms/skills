@@ -38,7 +38,7 @@ claude plugin install moneytosms-skills@moneytosms
 
 </details>
 
-<details>
+<details open>
 <summary><strong>Any other agent, or editable files</strong> (manual updates)</summary>
 
 ```bash
@@ -49,7 +49,7 @@ One skill only: `npx skills add moneytosms/skills --skill offload`
 
 </details>
 
-<details>
+<details open>
 <summary><strong>By hand</strong></summary>
 
 ```bash
