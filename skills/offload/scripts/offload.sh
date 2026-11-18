@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# offload.sh <codex|free|edit> <prompt-file> [out-dir]
+# offload.sh <codex|agy|free|edit> <prompt-file> [out-dir]
 # Runs one task on a non-Claude backend and prints a status line plus the answer.
-# Env: OFFLOAD_TIMEOUT (s, default 600), OFFLOAD_CODEX_MODEL, OFFLOAD_FREE_MODEL,
+# Env: OFFLOAD_TIMEOUT (s, default 600), OFFLOAD_CODEX_MODEL (default gpt-6-luna), OFFLOAD_CODEX_EFFORT (default high),
+#      OFFLOAD_AGY_MODEL (default gemini-3.8-flash-high), OFFLOAD_FREE_MODEL,
 #      OFFLOAD_ALLOW_FREE=1 (free backend on a repo not confirmed public), OFFLOAD_MAX_LINES (default 80)
 set -uo pipefail
 
@@ -10,7 +11,7 @@ out=${3:-$(mktemp -d -t offload-XXXX)}
 max=${OFFLOAD_MAX_LINES:-80}
 die() { echo "offload: $*" >&2; exit 2; }
 
-[[ $mode =~ ^(codex|free|edit)$ ]] || die "usage: offload.sh <codex|free|edit> <prompt-file> [out-dir]"
+[[ $mode =~ ^(codex|agy|free|edit)$ ]] || die "usage: offload.sh <codex|agy|free|edit> <prompt-file> [out-dir]"
 [[ -s $prompt_file ]] || die "prompt file missing or empty: $prompt_file"
 mkdir -p "$out"
 
@@ -30,10 +31,17 @@ case $mode in
       [[ -z $(git status --porcelain) ]] || die "edit needs a clean tree; commit or stash first"
       sandbox=workspace-write
     fi
-    model=${OFFLOAD_CODEX_MODEL:-default}
-    cmd=(codex exec -s "$sandbox" --skip-git-repo-check --ephemeral -C "$PWD" -o "$out/answer.md")
-    [[ $model != default ]] && cmd+=(-m "$model")
-    cmd+=("$(cat "$prompt_file")")
+    model=${OFFLOAD_CODEX_MODEL:-gpt-6-luna}
+    effort=${OFFLOAD_CODEX_EFFORT:-high}
+    cmd=(codex exec -m "$model" -c "model_reasoning_effort=\"$effort\"" -s "$sandbox" --skip-git-repo-check
+      --ephemeral -C "$PWD" -o "$out/answer.md" "$(cat "$prompt_file")")
+    ;;
+  agy)
+    command -v agy >/dev/null || die "agy (Antigravity CLI) not installed"
+    model=${OFFLOAD_AGY_MODEL:-gemini-3.8-flash-high}
+    # plan mode + terminal sandbox keep it read-only; headless mode auto-denies commands without an allow rule
+    cmd=(agy -p "$(cat "$prompt_file")" --mode plan --sandbox --model "$model"
+      --settings '{"permissions":{"allow":["command(*)"]}}')
     ;;
   free)
     command -v opencode >/dev/null || die "opencode not installed (https://opencode.ai)"
@@ -53,10 +61,11 @@ case $mode in
 esac
 
 start=$SECONDS
-if [[ $mode == free ]]; then
-  timeout "${OFFLOAD_TIMEOUT:-600}" "${cmd[@]}" >"$out/answer.md" 2>"$out/log"
+# </dev/null: codex exec otherwise blocks forever reading an open stdin
+if [[ $mode == free || $mode == agy ]]; then
+  timeout "${OFFLOAD_TIMEOUT:-600}" "${cmd[@]}" </dev/null >"$out/answer.md" 2>"$out/log"
 else
-  timeout "${OFFLOAD_TIMEOUT:-600}" "${cmd[@]}" >"$out/log" 2>&1
+  timeout "${OFFLOAD_TIMEOUT:-600}" "${cmd[@]}" </dev/null >"$out/log" 2>&1
 fi
 rc=$?
 secs=$((SECONDS - start))

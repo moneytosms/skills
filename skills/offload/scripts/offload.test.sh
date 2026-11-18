@@ -13,6 +13,10 @@ cat >"$t/bin/opencode" <<'EOF'
 [[ $1 == models ]] && { printf 'opencode/a-free\nopencode/b\n'; exit 0; }
 echo "free answer from $5"
 EOF
+cat >"$t/bin/agy" <<'EOF'
+#!/usr/bin/env bash
+echo "agy answer"
+EOF
 printf '#!/bin/sh\necho true\n' >"$t/bin/gh"  # every repo reads as private
 chmod +x "$t/bin/"*
 export PATH="$t/bin:$PATH"
@@ -26,6 +30,8 @@ check() { # name, expected exit, expected substring, args...
 echo "find the config loader" >"$t/p"
 echo "key sk-abcdefghijklmnopqrstuvwxyz123" >"$t/secret"
 check "codex answers"          0 "codex answer"           codex "$t/p" "$t/o1"
+check "codex pins luna"        0 "gpt-6-luna"             codex "$t/p" "$t/o3"
+check "agy answers"            0 "agy answer"             agy "$t/p" "$t/o4"
 check "bad mode"               2 "usage"                  nope "$t/p"
 check "secret refused"         2 "secret"                 codex "$t/secret"
 check "free refused private"   2 "not confirmed public"   free "$t/p"
