@@ -1,0 +1,380 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-hkbrpulz> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Study Notes Builder, skills guide</title><meta name="description" content="skills documentation: Study Notes Builder."><link rel="canonical" href="https://moneytosms.github.io/skills/guide/skills/study-notes-builder/skill/"><link rel="icon" href="/skills/favicon.svg" type="image/svg+xml"><meta property="og:title" content="Study Notes Builder, skills guide"><meta property="og:description" content="skills documentation: Study Notes Builder."><meta property="og:type" content="website"><meta property="og:url" content="https://moneytosms.github.io/skills/guide/skills/study-notes-builder/skill/"><script>
+      // Apply a saved theme before first paint. No saved choice: follow the OS.
+      try {
+        const t = localStorage.getItem("site-theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {}
+      document.documentElement.classList.add("js");
+    </script><style>@font-face{font-family:Geist Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-cyrillic-ext-wght-normal.DjL33-gN.woff2)format("woff2-variations");unicode-range:U+460-52F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}@font-face{font-family:Geist Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-cyrillic-wght-normal.BEAKL7Jp.woff2)format("woff2-variations");unicode-range:U+301,U+400-45F,U+490-491,U+4B0-4B1,U+2116}@font-face{font-family:Geist Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-vietnamese-wght-normal.6IgcOCM7.woff2)format("woff2-variations");unicode-range:U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB}@font-face{font-family:Geist Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-latin-ext-wght-normal.DC-KSUi6.woff2)format("woff2-variations");unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:Geist Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-latin-wght-normal.BgDaEnEv.woff2)format("woff2-variations");unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:Newsreader;font-style:normal;font-display:swap;font-weight:500;src:url(/skills/_astro/newsreader-vietnamese-500-normal.CL6a8tp2.woff2)format("woff2"),url(/skills/_astro/newsreader-vietnamese-500-normal.BEAbKU8A.woff)format("woff");unicode-range:U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB}@font-face{font-family:Newsreader;font-style:normal;font-display:swap;font-weight:500;src:url(/skills/_astro/newsreader-latin-ext-500-normal.BNHmvKvI.woff2)format("woff2"),url(/skills/_astro/newsreader-latin-ext-500-normal.CZruMFou.woff)format("woff");unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:Newsreader;font-style:normal;font-display:swap;font-weight:500;src:url(/skills/_astro/newsreader-latin-500-normal.B66TYsaK.woff2)format("woff2"),url(/skills/_astro/newsreader-latin-500-normal.DFwuUcdu.woff)format("woff");unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Geist Mono Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-mono-cyrillic-ext-wght-normal.X_5orZeX.woff2)format("woff2-variations");unicode-range:U+460-52F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}@font-face{font-family:Geist Mono Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-mono-cyrillic-wght-normal.DiZS0aHC.woff2)format("woff2-variations");unicode-range:U+301,U+400-45F,U+490-491,U+4B0-4B1,U+2116}@font-face{font-family:Geist Mono Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-mono-symbols2-wght-normal.CO5SzqOn.woff2)format("woff2-variations");unicode-range:U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F}@font-face{font-family:Geist Mono Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-mono-vietnamese-wght-normal.DadHysG0.woff2)format("woff2-variations");unicode-range:U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB}@font-face{font-family:Geist Mono Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-mono-latin-ext-wght-normal.Bwz-egvJ.woff2)format("woff2-variations");unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:Geist Mono Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/skills/_astro/geist-mono-latin-wght-normal.XN7g48iV.woff2)format("woff2-variations");unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:Newsreader;font-style:italic;font-display:swap;font-weight:400;src:url(/skills/_astro/newsreader-vietnamese-400-italic.bZegYFuM.woff2)format("woff2"),url(/skills/_astro/newsreader-vietnamese-400-italic.QbB8kb5s.woff)format("woff");unicode-range:U+102-103,U+110-111,U+128-129,U+168-169,U+1A0-1A1,U+1AF-1B0,U+300-301,U+303-304,U+308-309,U+323,U+329,U+1EA0-1EF9,U+20AB}@font-face{font-family:Newsreader;font-style:italic;font-display:swap;font-weight:400;src:url(/skills/_astro/newsreader-latin-ext-400-italic.BMTE_bNQ.woff2)format("woff2"),url(/skills/_astro/newsreader-latin-ext-400-italic.qdgKLcPG.woff)format("woff");unicode-range:U+100-2BA,U+2BD-2C5,U+2C7-2CC,U+2CE-2D7,U+2DD-2FF,U+304,U+308,U+329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:Newsreader;font-style:italic;font-display:swap;font-weight:400;src:url(/skills/_astro/newsreader-latin-400-italic.CEihAR-f.woff2)format("woff2"),url(/skills/_astro/newsreader-latin-400-italic.CNZoH1hn.woff)format("woff");unicode-range:U+??,U+131,U+152-153,U+2BB-2BC,U+2C6,U+2DA,U+2DC,U+304,U+308,U+329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+</style><link rel="stylesheet" href="/skills/_astro/_..B7V-z4cB.css"></head> <body data-astro-cid-hkbrpulz> <a class="skip-link" href="#main" data-astro-cid-hkbrpulz>Skip to content</a> <header class="site-header glass" data-astro-cid-hkbrpulz> <div class="site-header__inner" data-astro-cid-hkbrpulz> <a class="brand" href="/skills/" aria-label="skills home" data-astro-cid-hkbrpulz> <span class="brand__mark" aria-hidden="true" data-astro-cid-hkbrpulz> <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-hkbrpulz> <path d="M3 12h4l2.5-6 4 12 2.5-6h5" data-astro-cid-hkbrpulz></path> </svg> </span> <span data-astro-cid-hkbrpulz>skills</span> </a> <nav aria-label="Primary" class="site-nav" data-astro-cid-hkbrpulz> <a class="nav-home" href="/skills/" data-astro-cid-hkbrpulz>Overview</a> <a href="/skills/guide/" aria-current="page" data-astro-cid-hkbrpulz>Guide</a> <a href="https://github.com/moneytosms/skills" rel="noopener" data-astro-cid-hkbrpulz>Source</a> <button class="theme-toggle" type="button" aria-label="Switch colour theme" data-theme-toggle data-astro-cid-hkbrpulz> <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" data-astro-cid-hkbrpulz><circle cx="12" cy="12" r="4" data-astro-cid-hkbrpulz></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" data-astro-cid-hkbrpulz></path></svg> <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-astro-cid-hkbrpulz><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" data-astro-cid-hkbrpulz></path></svg> </button> </nav> </div> </header> <main id="main" tabindex="-1" data-astro-cid-hkbrpulz>  <link rel="stylesheet" href="/skills/pagefind/pagefind-ui.css"> <div class="guide" data-astro-cid-egoltos3> <aside class="guide__nav" aria-label="Guide sections" data-astro-cid-egoltos3> <div id="search" class="guide__search" data-astro-cid-egoltos3></div> <noscript><p data-astro-cid-egoltos3>Search needs JavaScript. All documents are available below.</p></noscript> <details class="guide__menu" open data-astro-cid-egoltos3> <summary data-astro-cid-egoltos3>All documents</summary> <div class="group" data-astro-cid-egoltos3> <p class="group__name" data-astro-cid-egoltos3>Start here</p> <ul data-astro-cid-egoltos3> <li data-astro-cid-egoltos3><a href="/skills/guide/readme" data-astro-cid-egoltos3>Skills For People On A Usage Cap</a></li> </ul> </div><div class="group" data-astro-cid-egoltos3> <p class="group__name" data-astro-cid-egoltos3>Skills</p> <ul data-astro-cid-egoltos3> <li data-astro-cid-egoltos3><a href="/skills/guide/skills/delegate/skill" data-astro-cid-egoltos3>Delegate</a></li><li data-astro-cid-egoltos3><a href="/skills/guide/skills/offload/skill" data-astro-cid-egoltos3>Offload</a></li><li data-astro-cid-egoltos3><a href="/skills/guide/skills/project-showcase/skill" data-astro-cid-egoltos3>Project showcase</a></li><li data-astro-cid-egoltos3><a href="/skills/guide/skills/recall/skill" data-astro-cid-egoltos3>Recall</a></li><li data-astro-cid-egoltos3><a href="/skills/guide/skills/study-notes-builder/skill" aria-current="page" data-astro-cid-egoltos3>Study Notes Builder</a></li><li data-astro-cid-egoltos3><a href="/skills/guide/skills/tuneup/skill" data-astro-cid-egoltos3>Tuneup</a></li> </ul> </div> </details> </aside> <article class="prose" data-pagefind-body data-astro-cid-egoltos3> <h1 id="study-notes-builder">Study Notes Builder</h1>
+<p>Turn whatever the user hands you (PDFs, PPTX, images, a syllabus, a topic list)
+into one cohesive PDF of <strong>detailed, simple-to-read, visual study notes</strong>: every
+topic runs <em>intuition → mathematics → boxed algorithm → verified worked examples
+→ common pitfalls → practice</em>, in syllabus order, with a consistent visual
+language and exam-focused end-matter.</p>
+<p>Built with <strong>Typst</strong> and a fixed, proven package stack. Source extraction uses
+<strong><code>lit</code></strong> (liteparse) when it is installed, else the Read tool.</p>
+<h2 id="when-this-applies">When this applies</h2>
+<p>Trigger phrases: “make notes / cheatsheet / detailed notes / revision notes /
+study guide for <subject>”, “turn these PPTs into notes”, “notes from this
+syllabus”, “cover these topics as notes”. The user usually attaches PDFs/PPTs or
+names topics.</subject></p>
+<p>Not this skill: writing a single short explainer, editing an existing prose
+doc, or answering one conceptual question.</p>
+<h2 id="hard-rules">Hard rules</h2>
+<ol>
+<li><strong>Grill before building.</strong> Never start writing sections until the user has
+answered the intake questions and approved a plan. Use the round-based
+question format in step 3.</li>
+<li><strong>Verify every number.</strong> Every worked numerical example is recomputed from
+scratch in a throwaway script (<code>scratchpad/verify/*.py</code>) and the notes show
+the verified value. Where the verified value differs from the source, state it and add a margin note. The note never names the source.
+Do this <em>before</em> writing the prose for that section.</li>
+<li><strong>Zero-warning compile gate.</strong> <code>typst compile main.typ out.pdf</code> must exit 0
+with no warnings (Typst warns on overflow boxes and unresolved refs — treat
+any as a defect).</li>
+<li><strong>Augment, don’t transcribe.</strong> Fill gaps the source assumes (foundational
+definitions, adjacent topics it leads into) from your knowledge base — but
+stay inside the scope the user set in the grill.</li>
+<li><strong>Read <code>references/typst-cookbook.md</code> before writing any <code>.typ</code>.</strong> It carries
+the version notes, import/setup lines, the package catalog and the Typst
+syntax traps that will otherwise cost you several failed compiles.</li>
+<li><strong>Search for packages before drawing.</strong> Run the package scout (step 2); do
+not default to the baseline stack when a domain package exists.</li>
+<li><strong>Every internal self-reference is a live hyperlink, both ways.</strong> Whenever the
+notes point at another part of themselves — “see Appendix C”, “the recall
+formula above”, “as in the perceptron worked example”, “Part II covers this” —
+that phrase must be a clickable link to the target, and the target must carry
+a subtle backlink to the referring spot. Use <code>xref</code> / <code>backlink</code> from
+<code>template.typ</code>: label the target heading/block <code>&#x3C;app-c></code>, write the mention as
+<code>#xref(&#x3C;app-c>)[Appendix C]</code> and give the call site its own label
+<code>&#x3C;q-bpn-appc></code>, then place <code>#backlink(&#x3C;q-bpn-appc>)</code> at the target. A target
+referenced from N spots gets N stacked <code>#backlink(...)</code> markers. This applies
+to the practice-answer-key ↔ practice-question link, the pitfall-index ↔
+body-callout link, and formula-sheet ↔ first-derivation link especially.</li>
+<li><strong>Notes stand alone.</strong> The reader must never need the source to use the notes.
+Prose never refers to the source: no “the deck”, “the slide”, “the lecture”,
+“the PDF”, “the source”, and no slide or page numbers. The only source
+mention allowed is the light <code>sref</code> tag (see Source tag in the writing rules) and the
+visible <code>sourcecheck</code> callout (unit/lecture name only). No slide numbers unless the
+user explicitly asks for slide-level provenance. Source pages live in <code>coverage.md</code>.</li>
+<li><strong>The config is the contract.</strong> <code>notes-config.md</code> (recipe + verbatim remarks)
+decides what goes in; check every section and the final build against it.</li>
+</ol>
+<h2 id="workflow">Workflow</h2>
+<h3 id="0-wizard--build-your-own-notes">0. Wizard — build your own notes</h3>
+<p>The user assembles a recipe; you record it in <code>notes-config.md</code>
+(<code>references/notes-config.md</code> is the template). Two rounds of
+<code>AskUserQuestion</code> (max 4 questions each, recommended answer first), then one
+free-text prompt. Skip fields the user already stated.</p>
+<p><strong>Round A (shape):</strong></p>
+<ol>
+<li><strong>Note type:</strong> <em>Quick revision</em> (dense, formulas + pitfalls, no derivations),
+<em>Detailed study</em> (default), <em>Exam notes</em> (detailed + study order, exam-priority
+table, quick checks), <em>Handbook</em> (lookup: formula sheet, comparison tables, index).</li>
+<li><strong>Engine:</strong> <em>Typst</em> (default; math-heavy), <em>Typst + embedded visuals</em>
+(hero/3D/plot figures made in HTML/Three.js/matplotlib, embedded as PNG),
+<em>HTML to PDF</em> (<code>references/html-kit</code>, <code>scripts/html-to-pdf.sh</code>; visual
+subjects). Recommend by subject.</li>
+<li><strong>Visual level:</strong> <em>Plain</em>, <em>Balanced</em> (default: a real figure per topic plus
+chapter heroes), <em>Rich</em> (heavy 3D/illustrated even where content is not
+naturally visual; honest analogies). See <code>references/rich-visuals.md</code>.</li>
+<li><strong>Density and tone:</strong> concise / normal / thorough, and terse / friendly / formal.</li>
+</ol>
+<p><strong>Round B (ingredients), multi-select:</strong>
+5. <strong>Per-topic blocks</strong> (pick what to include): intuition, derivations, worked
+examples (ask count), practice (ask count), pitfalls, exam tips, mnemonics,
+quick checks, source checks, comparison tables.
+6. <strong>Front/end matter:</strong> study order + exam priority, formula sheet, pitfall index,
+glossary, problem-attack guide, answer key, source-check register.
+7. <strong>Look:</strong> chapter covers (none / banner / banner+hero), colour (one accent /
+per-chapter / custom).
+8. <strong>Scope:</strong> what to emphasise or skip, notation target.</p>
+<p><strong>Then ask in plain chat:</strong> “Additional remarks? Anything you want done or
+avoided, in your own words.” Record it verbatim under <em>Additional remarks</em>.
+Repeat this prompt at the end of every grill round.</p>
+<p><strong>Remarks are binding.</strong> They override defaults and recipe fields. If a remark
+conflicts with a hard rule or gate, say so, ask once, record the decision under
+<em>Conflicts noted</em>; hard rules stand unless the user waives them explicitly.
+Show the filled <code>notes-config.md</code>, get a yes, and re-read it before each section.
+Pass it verbatim to every writer subagent. Step 7 checks the build against it.</p>
+<p>Mode defaults when a field is left unset: Quick = no derivations, 1 example per
+topic, no practice, no covers; Exam = study order + exam-priority table + a
+<code>check</code> per topic; Detailed = as specified below; Handbook = formula sheet,
+comparison matrices and index first-class.</p>
+<h3 id="1-intake--gather-and-extract-sources">1. Intake — gather and extract sources</h3>
+<ul>
+<li>List what the user gave: file paths, topic list, syllabus text.</li>
+<li>If <code>lit</code> is installed (<code>command -v lit</code>), batch-extract every document to
+text: <code>bash &#x3C;skill>/scripts/extract.sh "&#x3C;src_dir>" "&#x3C;out_dir>"</code>
+(wraps <code>lit parse</code>; falls back to per-file). Otherwise Read each file
+(PDFs via the <code>pages</code> arg).</li>
+<li><strong>Image-heavy sources:</strong> slides that are pictures or scans have little or no
+text layer. <code>extract.sh</code> flags pages with under 15 words
+(<code>&#x3C;name>.imgpages.txt</code>) and OCRs them with <code>tesseract</code> (<code>&#x3C;name>.ocr.txt</code>). For
+PPTX/images and for flagged pages, also render the page (<code>pdftoppm -r 150</code>)
+and Read the PNG: OCR misses diagrams, tables and formulas. Digest agents must
+report OCR quality per source and treat flagged pages as content to cover,
+not skip. Tell the user which sources were OCR’d.</li>
+<li>If the user gave only topics / a syllabus with no documents, note that the
+build is knowledge-base-driven and the digest step is skipped.</li>
+</ul>
+<h3 id="2-digest--understand-the-material-subagent">2. Digest — understand the material (subagent)</h3>
+<p>Dispatch one <code>Explore</code> (or <code>general-purpose</code>) subagent over the extracted text.
+Ask it to report, per source:</p>
+<ul>
+<li>topic/title, ordered concept list</li>
+<li>every formula (transcribed from the OCR as best it can)</li>
+<li>every worked numerical example (inputs given, method)</li>
+<li>diagrams/architectures described</li>
+<li>OCR quality (clean / messy / garbled), and which pages needed OCR or a visual read</li>
+</ul>
+<p>Before dispatching, tell the user it is working and give an honest ETA
+(roughly 1 min per 10 source files or 100 pages; say “grab a coffee” if over ~3 min). Ask nothing more until the report is back.</p>
+<p>…then a synthesis: the logical teaching order across all sources, the topic
+clusters, and <strong>which standard syllabus topics are absent</strong> (so you can propose
+augmentation). Keep the subagent read-only.</p>
+<p>Alongside it, launch these read-only subagents in the same message, each
+returning a short report with an explicit “nothing found” where applicable:</p>
+<ul>
+<li><strong>Package scout</strong>: given the subject and the list of diagram-worthy concepts
+(e.g. Bloch sphere, MPI message flow, SDLC/Gantt, DFA, UML, circuits), search
+the Typst Universe index (cookbook “Package catalog”) and <code>typst.app/universe</code>
+for packages that draw them. Return: package, latest version, one-line API
+sketch, and a minimal snippet it has compiled in a scratch file. Also report
+anything better than the baseline for tables, math annotation, plots
+(<code>lilaq</code>), margin notes.</li>
+<li><strong>Figure scout</strong> (if sources are PDFs/slides): render candidate figure pages
+to PNG and report the crop box for each usable figure.</li>
+</ul>
+<h3 id="3-grill--resolve-the-design-tree">3. Grill — resolve the design tree</h3>
+<p>Work in <strong>rounds</strong>. Each round asks every question whose prerequisites are
+settled; number them and give a recommended answer; then wait. Format:</p>
+<pre class="astro-code astro-code-themes github-light github-dark-dimmed" style="--shiki-light:#24292e;--shiki-dark:#adbac7;--shiki-light-bg:#fff;--shiki-dark-bg:#22272e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>❓ **Q1 — &#x3C;title>**: &#x3C;body, with options></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>➡️ &#x3C;your recommended answer></span></span></code></pre>
+<p>Cover at least (skip what notes-config.md already settles):</p>
+<ul>
+<li><strong>Scope / augmentation depth</strong> — source topics only + light augmentation, or
+source topics + the adjacent foundations they assume, or the full standard
+syllabus. (Recommend the middle.)</li>
+<li><strong>Purpose &#x26; notation</strong> — which exam/board/textbook to align notation to (infer
+from the decks if possible, e.g. a named textbook); cheatsheet vs teaching
+notes.</li>
+<li><strong>Worked-example treatment</strong> — recompute all source problems + N extra solved
+per topic + M practice questions with an answer-key appendix. (Recommend
+recompute-all, 2 extra, 3–5 practice.)</li>
+<li><strong>Visual investment</strong> — how far to go on diagrams, and which concepts get
+custom diagrams (propose packages from the scout), e.g. architecture
+node-graphs, function plots, geometry sketches, signal-flow.</li>
+<li><strong>Document skeleton</strong> — the ordered part/chapter list; confirm it.</li>
+<li><strong>Deliverable form</strong> — <code>.typ</code> sources + compiled PDF + README (default yes).</li>
+<li><strong>Source screenshots / redraws</strong> — crop source figures where clearer; redraw
+(Typst diagram or <code>rich-visuals</code>) where the original is blurry, cluttered or a
+3D plot that deserves a proper render (recommend: screenshot if sharp, else redraw).</li>
+<li><strong>Colour / print</strong> — colour-first screen, print-safe (callouts distinguished
+by icon <em>and</em> label, diagrams legible in greyscale).</li>
+</ul>
+<p>Recompute the frontier after each round. Stop when nothing is left unasked, then
+present a short written plan (Goal / Constraints / Structure / Deliverables /
+Verification) and get an explicit yes.</p>
+<h3 id="4-scaffold-the-project">4. Scaffold the project</h3>
+<p>HTML track: copy <code>references/html-kit/</code> (<code>notes.css</code>, <code>skeleton.html</code>) instead of
+the Typst files, write one <code>.html</code> per Part, build with
+<code>bash &#x3C;skill>/scripts/html-to-pdf.sh main.html out.pdf</code>. Hard rules, verify
+scripts, coverage and structure gates apply unchanged (structure-check reads
+<code>.typ</code> only: review HTML pages by rendering to PNG). Typst layout below.</p>
+<p>Create in the user’s chosen directory:</p>
+<pre class="astro-code astro-code-themes github-light github-dark-dimmed" style="--shiki-light:#24292e;--shiki-dark:#adbac7;--shiki-light-bg:#fff;--shiki-dark-bg:#22272e; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>&#x3C;proj>/</span></span>
+<span class="line"><span>├── main.typ            # config + title + "how to use" + TOC + part dividers + includes</span></span>
+<span class="line"><span>├── template.typ        # copy references/template.typ  (styles, callouts, theorem envs, worked/algo/practice)</span></span>
+<span class="line"><span>├── diagrams.typ        # copy references/diagrams.typ   (CeTZ/cetz-plot/fletcher builders)</span></span>
+<span class="line"><span>├── figs/               # cropped source screenshots</span></span>
+<span class="line"><span>├── coverage.md         # source page -> section ledger</span></span>
+<span class="line"><span>├── sections/NN-*.typ   # one file per Part (split at ~700 lines)</span></span>
+<span class="line"><span>├── scratchpad/verify/  # python recompute scripts (not shipped)</span></span>
+<span class="line"><span>├── out.pdf             # compiled</span></span>
+<span class="line"><span>└── README.md           # package list, build command, font note</span></span></code></pre>
+<p>Copy <code>references/template.typ</code> and <code>references/diagrams.typ</code> (proven on Typst
+0.15.x), adapt palette, header text and fonts, then run
+<code>bash &#x3C;skill>/scripts/sync-versions.sh &#x3C;proj></code>. Write <code>main.typ</code>
+from <code>references/main-skeleton.typ</code>.</p>
+<h3 id="5-verify-numerics">5. Verify numerics</h3>
+<p>For each source with worked problems, write <code>scratchpad/verify/&#x3C;part>.py</code> that
+recomputes every example (perceptron epochs, gradient steps, matrix products,
+recall vectors, whatever the domain needs). Run it. Use its output as the
+source of truth for the prose. <code>references/verify-example.py</code> is a worked
+sample (neural-network numerics) to pattern-match against.</p>
+<h3 id="5b-source-screenshots">5b. Source screenshots</h3>
+<p>Wherever a source slide diagram, table or equation image explains better than a
+redraw, screenshot it: render the page (<code>pdftoppm</code>), Read the PNG to pick the
+crop box, crop tight (no slide chrome), save in <code>figs/</code>, and embed as
+<code>#figure(image("figs/..."), caption: [...#sref[Lecture N]])</code>. Redraw
+only if the source image is blurry or cluttered. Commands in
+<code>references/typst-cookbook.md</code> > Screenshots. Ask about screenshots in the grill.</p>
+<h3 id="6-build-the-sections">6. Build the sections</h3>
+<p><strong>Format contract (hard).</strong> Notes are labelled blocks, never walls of text.
+Read <code>references/topic-example.typ</code> and copy its shape for every topic.</p>
+<ul>
+<li><strong>Headings:</strong> H2 per topic, H3 per subtopic (why / definition / types /
+steps / formula / comparison / example / pitfalls), H4 for cases. At most
+~150 words under any heading.</li>
+<li><strong>Default block per piece of information:</strong> terms = <code>definition</code> box;
+properties/rules/conditions = bullets (one idea each, &#x3C;= 2 lines);
+procedures = numbered steps; contrasts, states, parameters, costs = tables;
+key formulas = <code>keyform</code> (every symbol explained); structure/flow/timing =
+diagram or source screenshot; numbers = <code>worked</code>; traps = <code>pitfall</code>/<code>tip</code>.</li>
+<li><strong>No paragraph walls:</strong> a paragraph is &#x3C;= 3 lines and rare. If a paragraph
+lists things, make it bullets; if it compares things, make it a table.</li>
+<li><strong>Source check:</strong> where the source has an error, gap or inconsistency, use
+<code>sourcecheck[...]</code> naming only the unit/lecture, and list each in the
+end-matter register (Where / Issue / Used). Never silently fix.</li>
+<li><strong>Notation:</strong> if the notes’ symbols differ from the source’s, add one
+<code>notemap(...)</code> row in the front matter or first use.</li>
+<li><strong>Callout discipline:</strong> <code>intuition</code>, <code>pitfall</code>, <code>watch</code>, <code>tip</code> as needed;
+<code>trick</code> (mnemonics) and <code>check</code> only where one really exists, never every
+topic. Key formulas get <code>keyform(..., legend: ((sym, meaning), ...))</code>.</li>
+<li><strong>Chapter cover (balanced/rich, detailed/exam):</strong> open each chapter with
+<code>chapter-cover(colour, title, topics:, learn:, hero:)</code> and a distinct colour
+per chapter; the hero is a real figure (see <code>references/rich-visuals.md</code>).</li>
+<li><strong>Source tag:</strong> one <code>sref</code> per topic (in the definition or a caption), light
+form only: unit or lecture name, no slide or page numbers, e.g.
+<code>#sref[Unit I]</code>. Never per sentence.</li>
+<li><strong>Spine per topic</strong> (skip only what truly does not exist): intuition (1-3
+lines) > definition/formula boxes > method steps > worked examples (every
+source problem + 2 extra) > pitfalls > practice (3-5).</li>
+<li><strong>Coverage:</strong> every source page is mapped in <code>coverage.md</code> (see Gates below).
+Organize sections by concept, not source order. Coverage lives in the ledger,
+never in the prose.</li>
+</ul>
+<p><strong>Gates, both must pass before delivery:</strong>
+<code>python3 &#x3C;skill>/scripts/coverage-check.py &#x3C;proj></code> (keep <code>coverage.md</code>: one row
+per source page: <code>| file.pdf | page | topic | section file or skip: reason |</code>) and
+<code>python3 &#x3C;skill>/scripts/structure-check.py &#x3C;proj></code> (headings every ~150 words,
+paragraphs short, boxes, list/table items and figures per 1000 words). On
+failure, restructure the section; never loosen the thresholds. Writer agents run
+<code>structure-check.py</code> on their own file before reporting.</p>
+<p>End-matter Part: master formula sheet (showybox cards), comparison matrices
+(<code>tablem</code>), pitfall index (numbered, body callouts point here), symbol
+glossary, the source-check register (Where / Issue / Used, from every <code>sourcecheck</code>), a “how to attack a problem” table + <code>fletcher</code> decision flowchart,
+and the practice answer key (final answers only, keyed by topic).</p>
+<p>Wire the end-matter with <code>xref</code> / <code>backlink</code> (hard rule 6): every answer-key
+entry links to its question and back, every pitfall-index entry links to its
+body callout and back, every formula card links to where it was first derived
+and back. Any forward mention in the section prose gets the same treatment.</p>
+<p>Compile after each section: <code>typst compile main.typ out.pdf</code>. First compile
+downloads the packages (needs network once). Fix every error and warning before
+moving on. Read <code>references/typst-cookbook.md</code> for the syntax traps.</p>
+<h3 id="7-review-pass--density-and-gaps">7. Review pass — density and gaps</h3>
+<p>First check the build against <code>notes-config.md</code>: every requested block and
+matter present, nothing excluded present, each remark visibly honoured. Fix gaps.</p>
+<p>Run both gates first. Then render a sweep of pages to PNG and actually look. Any
+page that reads as a block of text, or lacks visible separation (headings,
+boxes, tables, spacing), is a defect: restructure it.
+<code>typst compile --pages A-B main.typ "/tmp/rev/p-{p}.png" --ppi 90</code></p>
+<ul>
+<li>No page should be more than ~20% empty at the bottom from a block that jumped
+whole. If chapters are forcing page breaks, remove the <code>pagebreak</code> from the
+level-1 heading show rule (the template ships without it).</li>
+<li>Tighten <code>par(leading:, spacing:)</code> and showybox <code>inset</code> / <code>spacing</code> if the
+layout feels loose; loosen if it is cramped.</li>
+<li>Every <code>#figure</code> renders, nothing clipped, body never scrolls horizontally.</li>
+<li>Margins symmetric, text column fills the page (no wide empty side margin);
+screenshots sharp and cropped tight.</li>
+<li>Every <code>xref</code> mention is visibly linked and lands on the right target; every
+target shows its <code>backlink</code> ↩ marker(s) and each returns to a distinct spot.
+A dangling <code>#link(&#x3C;label>)</code> warns at compile — rule 3 already fails the build.</li>
+<li>Print one page in greyscale mentally: callouts still tell apart by icon+label.</li>
+</ul>
+<h3 id="8-deliver">8. Deliver</h3>
+<p><code>SendUserFile</code> the compiled PDF. Report: page count, clean-compile confirmation,
+the section list, and where the <code>.typ</code> sources + verify scripts live. Write the
+README (package table with pinned versions, <code>typst compile</code> command, font note:
+needs <em>New Computer Modern</em> / <em>New Computer Modern Math</em>).</p>
+<h2 id="diagrams">Diagrams</h2>
+<p><strong>Gallery first.</strong> <code>references/gallery/</code> holds compile-verified <code>demo-*</code>
+functions (exact imports, versions, gotchas in comments). Read the relevant
+file, copy the demo, adapt. Do not guess a package API when a demo exists.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gallery/ml-quantum-math.typ</code></td>
+<td>quill circuits, Bloch sphere (czbloch/tybloch), lilaq plots/heatmap/contour, cetz-plot, Venn, equation annotation (mannot, equate), CNN (neural-netz), pipelines (neural-viz), confusion matrix, MLP/transformer/backprop (fletcher), Graphviz DAG, probability trees</td>
+</tr>
+<tr>
+<td><code>gallery/systems-hw.typ</code></td>
+<td>bytefield (packet/register), blockcell, network topology, CPU datapath (circuiteria), circuits (zap), timing (digidraw), K-map, truth table, DFA (finite), stack/heap, 5-stage pipeline, cache lookup, memory hierarchy, page walk, MPI send/recv + allreduce, process states, TCP handshake</td>
+</tr>
+<tr>
+<td><code>gallery/sde-algo-layout.typ</code></td>
+<td>sequence (chronos), ER (pintorita), UML (mastermind), Gantt (timeliney), trees (tdtr/arborly), inference/Fitch proofs, pseudocode (lovelace/algorithmic), code with highlights (codly), margin notes (marginalia), text wrap, sub-figures, hand-drawn look, SDLC models, git graph, memory pictures, BFS, call stack, big-O plot</td>
+</tr>
+</tbody>
+</table>
+<p>If the concept is not in the gallery, search the package catalog (cookbook),
+build a minimal demo in a scratch file, and only then use it. Add a new
+verified demo to the gallery when it works and is reusable.</p>
+<p>Fallback order when no demo fits:</p>
+<p>(1) a domain package from the
+catalog (quill, czbloch, finite, chronos, timeliney, circuiteria, bytefield,
+neural-netz, …); (2) <code>fletcher</code> for node-arrow structure; (3) <code>cetz</code> +
+<code>cetz-plot</code> or <code>lilaq</code> for geometry and plots; (4) a cropped source screenshot.
+Use colour sparingly and consistently, label directly on the figure, caption
+every figure with what to notice, not what it is.</p>
+<h2 id="packages-always-latest-never-pinned-by-hand">Packages: always latest, never pinned by hand</h2>
+<p>Run <code>bash &#x3C;skill>/scripts/sync-versions.sh &#x3C;proj></code> right after scaffolding and
+again before delivery. It rewrites every <code>@preview/&#x3C;pkg>:&#x3C;ver></code> import to the
+newest registry version. Then compile. If a major bump breaks the build, read
+that package’s README in <code>~/.cache/typst/packages/preview/&#x3C;pkg>/&#x3C;ver>/</code> and fix
+the call (do not pin back unless the fix takes more than 2 attempts; then note
+the pin in README.md). The shipped templates were last verified on: codly 2.x
+(new <code>codly.*</code> API), cetz 0.5.x, Typst 0.15.</p>
+<p>Baseline (swap or add per recon): <code>cetz</code>, <code>cetz-plot</code> (or <code>lilaq</code>), <code>fletcher</code>,
+<code>great-theorems</code> + <code>rich-counters</code>, <code>showybox</code> (key-formula cards only),
+<code>codly</code> + <code>codly-languages</code>, <code>physica</code>, <code>hydra</code>, <code>tablem</code>.</p>
+<h2 id="files-in-this-skill">Files in this skill</h2>
+<ul>
+<li><code>references/typst-cookbook.md</code> — <strong>read first.</strong> Versions, exact import/setup
+lines, and the Typst syntax-trap list.</li>
+<li><code>references/template.typ</code> — proven styles + <code>notes-conf</code> + all helpers
+(<code>intuition</code>, <code>tip</code>, <code>watch</code>, <code>pitfall</code>, <code>remember</code>, <code>derivation</code>,
+<code>definition</code>, <code>theorem</code>, <code>property</code>, <code>lrule</code>, <code>worked</code>, <code>practice</code>, <code>algo</code>,
+<code>keyform</code>, <code>sref</code>, <code>xref</code>, <code>backlink</code>, <code>part</code>, plus <code>trick</code>, <code>check</code>, <code>sourcecheck</code>,
+<code>pill</code>, <code>notemap</code>, <code>chapter-cover</code>). Copy verbatim.</li>
+<li><code>references/notes-config.md</code> — the recipe + binding remarks template (wizard output).</li>
+<li><code>references/rich-visuals.md</code> — 3D/hero figures via headless chromium (Three.js, canvas, SVG), embed as PNG.</li>
+<li><code>references/html-kit/</code> + <code>scripts/html-to-pdf.sh</code> — HTML to PDF track (same palette and callout names; KaTeX for math).</li>
+<li><code>references/diagrams.typ</code> — proven CeTZ/cetz-plot/fletcher builders
+(<code>layered-net</code>, <code>neuron</code>, <code>act-plot</code>, <code>decision-boundary</code>, <code>signal-flow-bpn</code>,
+<code>gaussian-kernel</code>, <code>delay-line</code>, <code>pattern-grid</code>, <code>nm</code>). Copy verbatim; add
+domain-specific builders alongside.</li>
+<li><code>references/topic-example.typ</code> — one correctly structured topic; copy its shape.</li>
+<li><code>scripts/coverage-check.py</code>, <code>scripts/structure-check.py</code> — delivery gates.</li>
+<li><code>references/main-skeleton.typ</code> — starter <code>main.typ</code> (title, how-to-use, TOC,
+part dividers, includes).</li>
+<li><code>references/verify-example.py</code> — sample numeric-verification script.</li>
+<li><code>scripts/extract.sh</code> — <code>lit parse</code> batch wrapper.</li>
+<li><code>references/gallery/*.typ</code> — verified diagram demos (see Diagrams).</li>
+<li><code>scripts/sync-versions.sh</code> — bump all <code>@preview</code> imports to latest.</li>
+</ul> <p class="prose__source" data-astro-cid-egoltos3>
+This page is <a href="https://github.com/moneytosms/skills/blob/main/skills/study-notes-builder/SKILL.md" data-astro-cid-egoltos3>skills/study-notes-builder/SKILL.md</a> in the repository, rendered as written.
+</p> </article> <nav class="guide__toc" aria-label="On this page" data-astro-cid-egoltos3> <p class="group__name" data-astro-cid-egoltos3>On this page</p> <ul data-astro-cid-egoltos3> <li class="d2" data-astro-cid-egoltos3><a href="#when-this-applies" data-astro-cid-egoltos3>When this applies</a></li><li class="d2" data-astro-cid-egoltos3><a href="#hard-rules" data-astro-cid-egoltos3>Hard rules</a></li><li class="d2" data-astro-cid-egoltos3><a href="#workflow" data-astro-cid-egoltos3>Workflow</a></li><li class="d3" data-astro-cid-egoltos3><a href="#0-wizard--build-your-own-notes" data-astro-cid-egoltos3>0. Wizard — build your own notes</a></li><li class="d3" data-astro-cid-egoltos3><a href="#1-intake--gather-and-extract-sources" data-astro-cid-egoltos3>1. Intake — gather and extract sources</a></li><li class="d3" data-astro-cid-egoltos3><a href="#2-digest--understand-the-material-subagent" data-astro-cid-egoltos3>2. Digest — understand the material (subagent)</a></li><li class="d3" data-astro-cid-egoltos3><a href="#3-grill--resolve-the-design-tree" data-astro-cid-egoltos3>3. Grill — resolve the design tree</a></li><li class="d3" data-astro-cid-egoltos3><a href="#4-scaffold-the-project" data-astro-cid-egoltos3>4. Scaffold the project</a></li><li class="d3" data-astro-cid-egoltos3><a href="#5-verify-numerics" data-astro-cid-egoltos3>5. Verify numerics</a></li><li class="d3" data-astro-cid-egoltos3><a href="#5b-source-screenshots" data-astro-cid-egoltos3>5b. Source screenshots</a></li><li class="d3" data-astro-cid-egoltos3><a href="#6-build-the-sections" data-astro-cid-egoltos3>6. Build the sections</a></li><li class="d3" data-astro-cid-egoltos3><a href="#7-review-pass--density-and-gaps" data-astro-cid-egoltos3>7. Review pass — density and gaps</a></li><li class="d3" data-astro-cid-egoltos3><a href="#8-deliver" data-astro-cid-egoltos3>8. Deliver</a></li><li class="d2" data-astro-cid-egoltos3><a href="#diagrams" data-astro-cid-egoltos3>Diagrams</a></li><li class="d2" data-astro-cid-egoltos3><a href="#packages-always-latest-never-pinned-by-hand" data-astro-cid-egoltos3>Packages: always latest, never pinned by hand</a></li><li class="d2" data-astro-cid-egoltos3><a href="#files-in-this-skill" data-astro-cid-egoltos3>Files in this skill</a></li> </ul> </nav> </div> <script>(function(){const base = "/skills";
+
+    // Pagefind's index only exists in a production build (npm run build).
+    const s = document.createElement("script");
+    s.src = `${base}/pagefind/pagefind-ui.js`;
+    s.onload = () => new PagefindUI({ element: "#search", showSubResults: true, showImages: false });
+    s.onerror = () => {
+      document.querySelector("#search").textContent = "Search is unavailable. Browse the documents below.";
+    };
+    document.head.append(s);
+    const menu = document.querySelector(".guide__menu");
+    if (matchMedia("(max-width: 959px)").matches) menu.open = false;
+  })();</script>  </main> <footer class="site-footer" data-astro-cid-hkbrpulz> <div class="site-footer__inner" data-astro-cid-hkbrpulz> <p data-astro-cid-hkbrpulz>MIT licensed. Timings quoted are single runs on one laptop.</p> <p class="site-footer__links" data-astro-cid-hkbrpulz> <a href="/skills/guide/" data-astro-cid-hkbrpulz>Guide</a> <a href="https://github.com/moneytosms/skills" data-astro-cid-hkbrpulz>Source on GitHub</a> </p> </div> </footer><script type="module">var e=document.documentElement;document.querySelector(`[data-theme-toggle]`)?.addEventListener(`click`,()=>{let t=(e.dataset.theme?e.dataset.theme===`dark`:matchMedia(`(prefers-color-scheme: dark)`).matches)?`light`:`dark`;e.dataset.theme=t;try{localStorage.setItem(`site-theme`,t)}catch{}});</script> </body> </html>
