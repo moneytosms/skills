@@ -1,0 +1,17 @@
+{
+  "name": "moneytosms",
+  "owner": {
+    "name": "moneytosms",
+    "url": "https://github.com/moneytosms"
+  },
+  "description": "Agent skills for people on a usage cap, as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "moneytosms-skills",
+      "source": "./",
+      "description": "Manual skills that move work off your most expensive model: offload, delegate, recall, tuneup, project-showcase, study-notes-builder.",
+      "category": "productivity",
+      "keywords": ["skills", "usage-limits", "delegation", "codex", "haiku"]
+    }
+  ]
+}

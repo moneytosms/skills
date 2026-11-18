@@ -1,0 +1,287 @@
+---
+import "@fontsource-variable/geist";
+import "@fontsource-variable/geist-mono";
+import "@fontsource/newsreader/500.css";
+import "@fontsource/newsreader/400-italic.css";
+import Landing from "../layouts/Landing.astro";
+import { cfg, withBase } from "../lib/source";
+
+const skill = (s: string) => withBase(`guide/skills/${s}/skill/`);
+const install = "npx skills add moneytosms/skills";
+
+const fixes = [
+  {
+    n: 1,
+    id: "offload",
+    title: "I'm burning my limit on grep and file reading",
+    quote: "The three great virtues of a programmer: laziness, impatience, and hubris.",
+    who: "Larry Wall, Programming Perl",
+    problem:
+      "Half of a coding session is legwork: summarize this file, find every use of that function, explain this log. My best model does it at full price, and on a Pro plan that's the week's limit gone by Wednesday.",
+    fix: "It hands one low-judgment task to a model that isn't Claude: Codex on gpt-6-luna, Antigravity on Gemini Flash, or a free opencode model for public repos. Claude writes the prompt, reads a short answer back, and spot-checks the file:line refs.",
+    route: ["codex", "agy", "free model"],
+    proof: "Summarizing a Hyprland config: 50s on gpt-6-luna. Claude read a 10-line answer, not the files.",
+  },
+  {
+    n: 2,
+    id: "delegate",
+    title: "Big tasks eat my best model",
+    quote: "Adding manpower to a late software project makes it later.",
+    who: "Fred Brooks, The Mythical Man-Month",
+    problem:
+      "A multi-ticket change means research, reading, editing and test runs. If the expensive model does all of it, it spends its context on file dumps instead of decisions.",
+    fix: "It keeps the current model as the orchestrator: it plans, asks you questions after recon, and reviews every diff. Headless Haiku workers do the legwork in parallel, each editor in its own git worktree with files it alone owns, so more workers don't mean more collisions.",
+    route: ["haiku scouts", "haiku editors", "verifier"],
+    proof: "A lean worker starts at about 5k tokens of context instead of about 36k for a full subagent.",
+  },
+  {
+    n: 3,
+    id: "recall",
+    title: "My agent keeps making the same mistakes",
+    quote: "Those who cannot remember the past are condemned to repeat it.",
+    who: "George Santayana, The Life of Reason",
+    problem:
+      "The same failed command, the same retry loop, the same correction I typed last week. Every repeat costs tokens, and memory files grow until nobody reads them.",
+    fix: "It mines past sessions for failed and blocked tool calls, retry loops, heavy sessions and your corrections. Cheap scripts count, Haiku reads, Claude judges. You get a ranked, evidence-backed report and it writes only the fixes you approve, within line budgets.",
+    route: ["scripts count", "haiku reads", "you approve"],
+    proof: "Every proposal cites a count and the sessions it came from. No evidence, no proposal.",
+  },
+  {
+    n: 4,
+    id: "tuneup",
+    title: "My machine is slow and I don't know why",
+    quote: "Premature optimization is the root of all evil.",
+    who: "Donald Knuth, Structured Programming with go to Statements",
+    problem:
+      "Crashes, a full disk, slow boot. Guessing at fixes wastes a session, and a wrong deletion costs far more than a slow audit.",
+    fix: "It sends a swarm of read-only Haiku agents over hardware, firmware, crash logs, disk, software and services on Linux, macOS or Windows. You get a ranked report with safety tiers, then only the fixes you approve, each previewed and measured.",
+    route: ["read-only haiku", "ranked report", "approved fixes"],
+    proof: "Audit first, change nothing until you say which items.",
+  },
+];
+
+const others = [
+  { id: "project-showcase", what: "Turns a repo into a landing page, a searchable guide, a redesigned README and repo metadata. This site is its output." },
+  { id: "study-notes-builder", what: "Builds one polished PDF of exam-oriented study notes from lecture slides, notes or a topic list, with Typst." },
+];
+
+const changelog = [
+  { date: "Nov 18, 2026", text: "offload: new skill. Codex on gpt-6-luna, Antigravity, free opencode models, guarded edits." },
+  { date: "Nov 10, 2026", text: "recall and tuneup: new skills. delegate gets ownership checks, container units and progress logs." },
+  { date: "Nov 6, 2026", text: "delegate: new skill, with acceptance review, claim checks and Sonnet escalation." },
+  { date: "Nov 1, 2026", text: "project-showcase and study-notes-builder: first release." },
+];
+---
+
+<Landing title={`${cfg.name}: ${cfg.tagline}`} description={cfg.description}>
+  <header class="top">
+    <a class="mark" href={withBase("")} aria-label="skills home"><span aria-hidden="true">/</span>skills</a>
+    <nav aria-label="Site">
+      <a href={withBase("guide/")}>Guide</a>
+      <a href={cfg.repoUrl}>GitHub</a>
+    </nav>
+  </header>
+
+  <div class="meter" role="img" aria-label="Illustration: Claude usage drains without these skills and stays nearly full with them.">
+    <div class="meter__row">
+      <span class="meter__label">Claude usage, without</span>
+      <span class="meter__track"><span class="meter__fill meter__fill--without"></span></span>
+    </div>
+    <div class="meter__row">
+      <span class="meter__label">with these skills</span>
+      <span class="meter__track"><span class="meter__fill meter__fill--with"></span></span>
+    </div>
+    <p class="meter__note">An illustration, not a measurement.</p>
+  </div>
+
+  <article class="page">
+    <section class="intro">
+      <h1>Agent skills for people on a usage cap.</h1>
+      <p class="lede">
+        My Claude Code skills, straight from my <code>~/.claude</code>. I'm on a Pro plan, and I kept running out of
+        usage by midweek. Not on thinking, on legwork. These skills move that legwork somewhere cheaper and keep my
+        best model for the decisions.
+      </p>
+      <p class="lede">
+        Every one is manual: you type the slash command, nothing fires on its own. They're small, readable and easy to
+        bend to your own setup. Fork them.
+      </p>
+      <div class="install" data-copy>
+        <code id="install-cmd">{install}</code>
+        <button type="button" class="copy" data-copy-target="install-cmd" hidden>Copy</button>
+      </div>
+      <p class="links"><a href={withBase("guide/")}>Read the guide</a> · <a href="#install">All install options</a></p>
+    </section>
+
+    <section aria-labelledby="why">
+      <h2 id="why" class="section-title">Why these skills exist</h2>
+      <p>Each one fixes a way I was wasting usage. Problem first, then the fix.</p>
+    </section>
+
+    {fixes.map((f) => (
+      <section class="fix" id={f.id} aria-labelledby={`${f.id}-h`}>
+        <h2 id={`${f.id}-h`}><span class="num">#{f.n}:</span> {f.title}</h2>
+        <blockquote>
+          <p>“{f.quote}”</p>
+          <footer>{f.who}</footer>
+        </blockquote>
+        <p><strong>The Problem.</strong> {f.problem}</p>
+        <p><strong>The Fix</strong> is <a href={skill(f.id)}><code>/{f.id}</code></a>. {f.fix}</p>
+        <p class="route" aria-label={`Work moves to: ${f.route.join(", ")}`}>
+          <code>/{f.id}</code>
+          {f.route.map((r) => (<><span class="arrow" aria-hidden="true">→</span><span class="hop">{r}</span></>))}
+        </p>
+        <p class="proof">{f.proof}</p>
+      </section>
+    ))}
+
+    <section aria-labelledby="other">
+      <h2 id="other" class="section-title">Other skills I use</h2>
+      <ul class="others">
+        {others.map((o) => (
+          <li><a href={skill(o.id)}><code>/{o.id}</code></a> <span>{o.what}</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="install" aria-labelledby="install-h">
+      <h2 id="install-h" class="section-title">Installation (30-second setup)</h2>
+      <details open>
+        <summary><strong>Claude Code plugin</strong> <span class="muted">updates itself</span></summary>
+        <pre><code>/plugin install moneytosms-skills --marketplace moneytosms/skills</code></pre>
+        <p class="muted">Or from your shell: <code>claude plugin marketplace add moneytosms/skills</code>, then <code>claude plugin install moneytosms-skills@moneytosms</code>.</p>
+      </details>
+      <details>
+        <summary><strong>Any agent, editable files</strong> <span class="muted">manual updates</span></summary>
+        <pre><code>{install}</code></pre>
+        <p class="muted">One skill only: <code>{install} --skill offload</code>.</p>
+      </details>
+      <details>
+        <summary><strong>By hand</strong></summary>
+        <pre><code>git clone https://github.com/moneytosms/skills
+ln -s "$PWD/skills/skills/offload" ~/.claude/skills/offload</code></pre>
+      </details>
+      <p><code>/offload</code> needs the backends it calls: <code>codex</code> (logged in), <code>agy</code> or <code>opencode</code>. The others need only Claude Code.</p>
+    </section>
+
+    <section aria-labelledby="log">
+      <h2 id="log" class="section-title">Changelog</h2>
+      <ol class="log">
+        {changelog.map((c) => (<li><time>{c.date}</time><span>{c.text}</span></li>))}
+      </ol>
+    </section>
+  </article>
+
+  <footer class="foot">
+    <p>{cfg.footnote}</p>
+    <p><a href={withBase("guide/")}>Guide</a> · <a href={cfg.repoUrl}>Source</a> · <a href={`${cfg.repoUrl}/blob/main/LICENSE`}>License</a></p>
+  </footer>
+</Landing>
+
+<script>
+  for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-copy-target]")) {
+    if (!navigator.clipboard) continue;
+    btn.hidden = false;
+    btn.addEventListener("click", async () => {
+      const text = document.getElementById(btn.dataset.copyTarget!)?.textContent ?? "";
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = "Copied";
+      } catch {
+        btn.textContent = "Select it";
+      }
+      setTimeout(() => (btn.textContent = "Copy"), 1600);
+    });
+  }
+</script>
+
+<style is:global>
+  :root {
+    color-scheme: light dark;
+    --paper: light-dark(oklch(0.985 0.006 85), oklch(0.17 0.008 60));
+    --ink: light-dark(oklch(0.21 0.012 60), oklch(0.93 0.008 80));
+    --ink-2: light-dark(oklch(0.45 0.012 60), oklch(0.72 0.01 70));
+    --rule: light-dark(oklch(0.89 0.01 80), oklch(0.3 0.01 60));
+    --well: light-dark(oklch(0.955 0.01 80), oklch(0.22 0.01 60));
+    --accent: light-dark(oklch(0.58 0.16 55), oklch(0.8 0.14 70));
+    --ghost: light-dark(oklch(0.8 0.02 60), oklch(0.4 0.015 60));
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Geist Variable", system-ui, sans-serif;
+    --mono: "Geist Mono Variable", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.65; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); }
+  a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 0.22em; text-decoration-thickness: 1.5px; }
+  a:hover { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+  code, pre { font-family: var(--mono); font-size: 0.88em; }
+  :not(pre) > code { background: var(--well); padding: 0.1em 0.35em; border-radius: 4px; }
+  pre { background: var(--well); border: 1px solid var(--rule); border-radius: 6px; padding: 0.9rem 1rem; overflow-x: auto; margin: 0.75rem 0; }
+  pre code { background: none; padding: 0; }
+  p { margin: 0 0 1rem; text-wrap: pretty; }
+
+  .top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; max-width: 46rem; margin: 0 auto; padding: 1.25rem 16px 0.5rem; }
+  .mark { font-family: var(--mono); font-weight: 600; text-decoration: none; letter-spacing: -0.02em; }
+  .mark span { color: var(--accent); }
+  .top nav { display: flex; gap: 1.25rem; font-size: 0.92rem; }
+
+  .meter { position: sticky; top: 0; z-index: 5; background: color-mix(in oklch, var(--paper) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule); padding: 0.55rem 16px 0.4rem; }
+  .meter__row, .meter__note { max-width: 46rem; margin: 0 auto; }
+  .meter__row { display: grid; grid-template-columns: 11.5rem 1fr; align-items: center; gap: 0.75rem; font-family: var(--mono); font-size: 0.72rem; color: var(--ink-2); }
+  .meter__track { height: 6px; background: var(--well); border-radius: 3px; overflow: hidden; }
+  .meter__fill { display: block; height: 100%; border-radius: 3px; transform-origin: left; }
+  .meter__fill--with { background: var(--accent); transform: scaleX(0.92); }
+  .meter__fill--without { background: var(--ghost); transform: scaleX(0.18); }
+  .meter__note { font-size: 0.68rem; color: var(--ink-2); margin-top: 0.15rem; font-style: italic; font-family: var(--serif); }
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .meter__fill--without { animation: drain linear both; animation-timeline: scroll(root); }
+      .meter__fill--with { animation: hold linear both; animation-timeline: scroll(root); }
+    }
+  }
+  @keyframes drain { from { transform: scaleX(1); } to { transform: scaleX(0.12); } }
+  @keyframes hold { from { transform: scaleX(1); } to { transform: scaleX(0.9); } }
+
+  .page { max-width: 46rem; margin: 0 auto; padding: 2.5rem 16px 2rem; }
+  h1, h2 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.015em; line-height: 1.12; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(2.3rem, 1.6rem + 3.4vw, 3.6rem); margin-bottom: 1.4rem; }
+  .lede { font-size: 1.08rem; }
+  .install { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; background: var(--ink); color: var(--paper); border-radius: 6px; padding: 0.8rem 0.9rem 0.8rem 1rem; margin: 1.6rem 0 0.8rem; overflow-x: auto; }
+  .install code { background: none; padding: 0; white-space: nowrap; font-size: 0.92rem; }
+  .install code::before { content: "$ "; color: var(--accent); }
+  .copy { font: 500 0.78rem var(--sans); background: transparent; color: inherit; border: 1px solid color-mix(in oklch, var(--paper) 35%, transparent); border-radius: 4px; padding: 0.3rem 0.65rem; cursor: pointer; flex: none; }
+  .copy:hover { border-color: var(--accent); color: var(--accent); }
+  .links { font-size: 0.92rem; color: var(--ink-2); }
+
+  section { margin-top: 3.4rem; }
+  .intro { margin-top: 0; }
+  .section-title { font-size: 1.9rem; margin-bottom: 0.9rem; }
+  .fix { border-top: 1px solid var(--rule); padding-top: 2.2rem; margin-top: 2.4rem; scroll-margin-top: 4.5rem; }
+  .fix h2 { font-size: 1.65rem; margin-bottom: 1.1rem; }
+  .num { color: var(--accent); }
+  blockquote { margin: 0 0 1.2rem; padding: 0.1rem 0 0.1rem 1.1rem; border-left: 3px solid var(--accent); }
+  blockquote p { font-family: var(--serif); font-style: italic; font-size: 1.2rem; margin: 0 0 0.3rem; line-height: 1.4; }
+  blockquote footer { font-size: 0.85rem; color: var(--ink-2); }
+  .route { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.55rem; font-family: var(--mono); font-size: 0.82rem; margin: 1.2rem 0 0.6rem; }
+  .hop { border: 1px solid var(--rule); border-radius: 999px; padding: 0.1rem 0.6rem; color: var(--ink-2); }
+  .arrow { color: var(--accent); }
+  .proof { font-size: 0.9rem; color: var(--ink-2); }
+
+  .others { list-style: none; padding: 0; margin: 0; }
+  .others li { padding: 0.8rem 0; border-bottom: 1px solid var(--rule); display: grid; gap: 0.2rem; }
+  .others li span { color: var(--ink-2); font-size: 0.95rem; }
+  details { border-bottom: 1px solid var(--rule); padding: 0.75rem 0; }
+  summary { cursor: pointer; }
+  .muted { color: var(--ink-2); font-size: 0.9rem; font-weight: 400; }
+  .log { list-style: none; padding: 0; margin: 0; }
+  .log li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid var(--rule); font-size: 0.95rem; }
+  .log time { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-2); padding-top: 0.15rem; }
+  .foot { max-width: 46rem; margin: 0 auto; padding: 2rem 16px 3rem; font-size: 0.85rem; color: var(--ink-2); }
+  .foot p { margin: 0 0 0.4rem; }
+
+  @media (max-width: 520px) {
+    .meter__row { grid-template-columns: 8.5rem 1fr; font-size: 0.66rem; }
+    .log li { grid-template-columns: 1fr; gap: 0.1rem; }
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+import "@fontsource-variable/geist";
+import "@fontsource/newsreader/500.css";
+import Landing from "../layouts/Landing.astro";
+import { cfg, withBase } from "../lib/source";
+---
+
+<Landing title={`Not found, ${cfg.name}`} description="Page not found.">
+  <div class="nf">
+    <p class="cmd"><code>/{Astro.url.pathname.split("/").filter(Boolean).pop() ?? "page"}</code>: unknown skill</p>
+    <h1>Nothing here. Not even a cheap model.</h1>
+    <p><a href={withBase("")}>Back to {cfg.name}</a> · <a href={withBase("guide/")}>Guide</a></p>
+  </div>
+</Landing>
+
+<style is:global>
+  :root { color-scheme: light dark; }
+  html { background: light-dark(oklch(0.985 0.006 85), oklch(0.17 0.008 60)); color: light-dark(oklch(0.21 0.012 60), oklch(0.93 0.008 80)); font-family: "Geist Variable", system-ui, sans-serif; line-height: 1.6; }
+  body { margin: 0; }
+  .nf { max-width: 40rem; margin: 18vh auto 0; padding: 0 16px; }
+  .cmd { font-family: ui-monospace, monospace; font-size: 0.9rem; opacity: 0.7; }
+  h1 { font-family: "Newsreader", Georgia, serif; font-weight: 500; font-size: clamp(2rem, 1.5rem + 3vw, 3rem); line-height: 1.15; margin: 0.4rem 0 1.2rem; }
+  a { color: inherit; text-decoration-color: light-dark(oklch(0.58 0.16 55), oklch(0.8 0.14 70)); text-underline-offset: 0.22em; }
+</style>
