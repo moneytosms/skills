@@ -35,7 +35,7 @@ Keep on Claude, and say so instead of offloading: planning and architecture, mul
    ```
    It refuses (exit 2) on a prompt that looks like it holds a secret, `free` on a repo it can't confirm is public, and `edit` outside git or on a dirty tree. Pass a refusal on to the user; don't work around it. Set `OFFLOAD_ALLOW_FREE=1` only when the user says the code may go to a free provider.
 4. **Spot-check** one or two cited `path:line` refs with a ranged Read. If a ref is wrong, say so and don't build on the answer.
-5. **`edit` only:** read `git diff`, run the project's tests/lint, and report the result. Reverting is `git checkout -- .` on the user's say-so.
+5. **`edit` only:** read `git diff`, run the project's tests/lint, and report the result. Reverting (only on the user's say-so) is `git restore .` plus removing the new `??` files the script listed.
 6. **On FAILED** (exit 1): report the status line and log tail. Don't silently redo the task on Claude; offer to.
 
 Env knobs: `OFFLOAD_TIMEOUT` (seconds, default 600), `OFFLOAD_CODEX_MODEL`, `OFFLOAD_FREE_MODEL` (falls back to the first listed free model if missing), `OFFLOAD_MAX_LINES` (default 80).
