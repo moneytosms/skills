@@ -9,7 +9,7 @@
     {
       "name": "moneytosms-skills",
       "source": "./",
-      "description": "Manual skills that move work off your most expensive model: offload, delegate, recall, tuneup, project-showcase, study-notes-builder.",
+      "description": "Manual skills that move work off your most expensive model: offload, delegate, recall, tuneup, windows-cleanup, project-showcase, study-notes-builder.",
       "category": "productivity",
       "keywords": ["skills", "usage-limits", "delegation", "codex", "haiku"]
     }

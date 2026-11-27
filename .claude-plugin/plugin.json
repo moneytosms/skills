@@ -1,7 +1,7 @@
 {
   "name": "moneytosms-skills",
   "version": "1.0.0",
-  "description": "Agent skills for people on a usage cap: offload one task to Codex or a free model, delegate legwork to a Haiku swarm, recall lessons from past sessions, audit your machine, showcase a repo, build study notes.",
+  "description": "Agent skills for people on a usage cap: offload one task to Codex or a free model, delegate legwork to a Haiku swarm, recall lessons from past sessions, audit your machine, debloat Windows, showcase a repo, build study notes.",
   "author": {
     "name": "moneytosms",
     "url": "https://github.com/moneytosms"
@@ -14,6 +14,7 @@
     "./skills/delegate",
     "./skills/recall",
     "./skills/tuneup",
+    "./skills/windows-cleanup",
     "./skills/project-showcase",
     "./skills/study-notes-builder"
   ]

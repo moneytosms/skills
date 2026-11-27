@@ -120,6 +120,7 @@ It refuses prompts that look like they hold a secret, free models on repos it ca
 
 - [`/project-showcase`](./skills/project-showcase/SKILL.md): turns a repo into a landing page, a searchable guide, a redesigned README and repo metadata. [This repo's site](https://moneytosms.github.io/skills/) is its output.
 - [`/study-notes-builder`](./skills/study-notes-builder/SKILL.md): builds one polished PDF of exam-oriented study notes from lecture slides, notes or a topic list, with Typst.
+- [`/windows-cleanup`](./skills/windows-cleanup/SKILL.md): in-place Windows debloat that keeps your games, saves and configs. Read-only Haiku scans, an interview about what stays, then a phased PowerShell plan you run yourself, checked by a read-only safety pass first.
 
 ## License
 
